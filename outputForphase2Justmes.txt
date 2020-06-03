@@ -1,0 +1,272 @@
+CLASS_DECL to MODIFIER 'class' 'id' '{' CLASS_BODY '}'
+
+MODIFIER to 'public'
+
+match 'public'
+
+match 'class'
+
+match 'id'
+
+match '{'
+
+CLASS_BODY to METHOD_LIST
+
+METHOD_LIST to METHOD_DECL METHOD_LIST'
+
+METHOD_DECL to MODIFIER PRIMITIVE_TYPE 'id' '(' ')' '{' METHOD_BODY '}'
+
+MODIFIER to 'private'
+
+match 'private'
+
+PRIMITIVE_TYPE to 'int'
+
+match 'int'
+
+match 'id'
+
+match '('
+
+match ')'
+
+match '{'
+
+METHOD_BODY to STATEMENT_LIST
+
+STATEMENT_LIST to STATEMENT STATEMENT_LIST'
+
+STATEMENT to DECLARATION
+
+DECLARATION to PRIMITIVE_TYPE 'id' ';'
+
+PRIMITIVE_TYPE to 'int'
+
+match 'int'
+
+match 'id'
+
+match ';'
+
+STATEMENT_LIST' to STATEMENT STATEMENT_LIST'
+
+STATEMENT to WHILE
+
+WHILE to 'while' '(' EXPRESSION ')' '{' STATEMENT '}'
+
+match 'while'
+
+match '('
+
+EXPRESSION to SIMPLE_EXPRESSION EXPRESSION0
+
+SIMPLE_EXPRESSION to TERM SIMPLE_EXPRESSION'
+
+TERM to FACTOR TERM'
+
+FACTOR to 'id'
+
+match 'id'
+
+TERM' to eeee
+
+SIMPLE_EXPRESSION' to eeee
+
+EXPRESSION0 to 'relop' SIMPLE_EXPRESSION
+
+match 'relop'
+
+SIMPLE_EXPRESSION to TERM SIMPLE_EXPRESSION'
+
+TERM to FACTOR TERM'
+
+FACTOR to 'num'
+
+match 'num'
+
+TERM' to eeee
+
+SIMPLE_EXPRESSION' to eeee
+
+match ')'
+
+match '{'
+
+STATEMENT to ASSIGNMENT
+
+ASSIGNMENT to 'id' 'assign' EXPRESSION ';'
+
+match 'id'
+
+match 'assign'
+
+EXPRESSION to SIMPLE_EXPRESSION EXPRESSION0
+
+SIMPLE_EXPRESSION to TERM SIMPLE_EXPRESSION'
+
+TERM to FACTOR TERM'
+
+FACTOR to 'id'
+
+match 'id'
+
+TERM' to eeee
+
+SIMPLE_EXPRESSION' to 'addop' TERM SIMPLE_EXPRESSION'
+
+match 'addop'
+
+TERM to FACTOR TERM'
+
+FACTOR to 'num'
+
+match 'num'
+
+TERM' to eeee
+
+SIMPLE_EXPRESSION' to eeee
+
+EXPRESSION0 to eeee
+
+match ';'
+
+match '}'
+
+STATEMENT_LIST' to STATEMENT STATEMENT_LIST'
+
+STATEMENT to IF
+
+IF to 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}'
+
+match 'if'
+
+match '('
+
+EXPRESSION to SIMPLE_EXPRESSION EXPRESSION0
+
+SIMPLE_EXPRESSION to TERM SIMPLE_EXPRESSION'
+
+TERM to FACTOR TERM'
+
+FACTOR to 'id'
+
+match 'id'
+
+TERM' to eeee
+
+SIMPLE_EXPRESSION' to eeee
+
+EXPRESSION0 to 'relop' SIMPLE_EXPRESSION
+
+match 'relop'
+
+SIMPLE_EXPRESSION to TERM SIMPLE_EXPRESSION'
+
+TERM to FACTOR TERM'
+
+FACTOR to 'num'
+
+match 'num'
+
+TERM' to eeee
+
+SIMPLE_EXPRESSION' to eeee
+
+match ')'
+
+match '{'
+
+STATEMENT to ASSIGNMENT
+
+ASSIGNMENT to 'id' 'assign' EXPRESSION ';'
+
+match 'id'
+
+match 'assign'
+
+EXPRESSION to SIMPLE_EXPRESSION EXPRESSION0
+
+SIMPLE_EXPRESSION to TERM SIMPLE_EXPRESSION'
+
+TERM to FACTOR TERM'
+
+FACTOR to 'id'
+
+match 'id'
+
+TERM' to eeee
+
+SIMPLE_EXPRESSION' to 'addop' TERM SIMPLE_EXPRESSION'
+
+match 'addop'
+
+TERM to FACTOR TERM'
+
+FACTOR to 'num'
+
+match 'num'
+
+TERM' to eeee
+
+SIMPLE_EXPRESSION' to eeee
+
+EXPRESSION0 to eeee
+
+match ';'
+
+match '}'
+
+'else' Error: missing '{', inserted 
+
+match '{'
+
+STATEMENT to ASSIGNMENT
+
+ASSIGNMENT to 'id' 'assign' EXPRESSION ';'
+
+match 'id'
+
+match 'assign'
+
+EXPRESSION to SIMPLE_EXPRESSION EXPRESSION0
+
+SIMPLE_EXPRESSION to TERM SIMPLE_EXPRESSION'
+
+TERM to FACTOR TERM'
+
+FACTOR to 'id'
+
+match 'id'
+
+TERM' to eeee
+
+SIMPLE_EXPRESSION' to 'addop' TERM SIMPLE_EXPRESSION'
+
+match 'addop'
+
+TERM to FACTOR TERM'
+
+FACTOR to 'id'
+
+match 'id'
+
+TERM' to eeee
+
+SIMPLE_EXPRESSION' to eeee
+
+EXPRESSION0 to eeee
+
+match ';'
+
+match '}'
+
+STATEMENT_LIST' to eeee
+
+match '}'
+
+METHOD_LIST' to eeee
+
+match '}'
+
+match '$'
+
