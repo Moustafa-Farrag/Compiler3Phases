@@ -5,7 +5,7 @@
 #ifndef UNTITLED_TABLEBUILDER_H
 #define UNTITLED_TABLEBUILDER_H
 #include <bits/stdc++.h>
-
+#include "attribute.h"
 using namespace std;
 
 class TableBuilder {
@@ -21,6 +21,8 @@ private:
 
     map<pair<string,string>, string> table;
 
+    unordered_map<string ,pair<string,int>> vars ;
+
     void calcTerminals();
 
     vector<string> tokenize(string s);
@@ -29,7 +31,7 @@ private:
 
     vector<string> errorMes ; 
 
-void PrintingInOut( int i , stack<string> &s, vector<string> &errorMes, vector<string> &inputWords, string stackP);
+void PrintingInOut( int i , stack<attribute> &s, vector<string> &errorMes, vector<string> &inputWords, attribute stackP);
 
 
 

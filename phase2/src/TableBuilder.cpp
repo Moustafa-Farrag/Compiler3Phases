@@ -3,7 +3,6 @@
 //
 
 #include "../include/TableBuilder.h"
-
 #include <utility>
 
 TableBuilder::TableBuilder(unordered_map<string, set<string>> first, unordered_map<string, set<string>> follow,
@@ -23,14 +22,21 @@ void TableBuilder::build()
         {
             t[{production.first, terminal}] = "error";
         }
+        int c1 = 0 ;
         for (auto product : production.second)
         {
+            vector <string> spilted = tokenize(product);
+            string temp = "" ;  
+            for ( int j = 0 ; j < spilted.size() ; j++ ){
+
+                temp += spilted[j] + " <"  + production.first + to_string(c1) +  to_string(j) + "> " ;   
+            }
             for (auto terminal : this->terminals)
             {
                 bool thisSlotIsTaken = false;
                 if (this->first[product].find(terminal) != this->first[product].end())
                 {
-                    t[{production.first, terminal}] = product;
+                    t[{production.first, terminal}] = temp;
                     thisSlotIsTaken = true;
                 }
                 if (this->follow[production.first].find(terminal) != this->follow[production.first].end())
@@ -51,6 +57,7 @@ void TableBuilder::build()
                     }
                 }
             }
+            c1++ ; 
         }
     }
     this->table = t;
@@ -123,19 +130,23 @@ void TableBuilder::lastInput(string firstNon)
     }
 
     // ----------
-    stack<string> s;
-    s.push("\'$\'");
-    s.push(firstNon);
+    stack<attribute> s;
+    attribute a; 
+    a.name = "\'$\'" ; 
+    s.push(a);
+    attribute ia; 
+    ia.name = firstNon; 
+    s.push(ia);
     inputWords.push_back("\'$\'");
     int i = 0;
     if (!errorMes.size())
     {
         while (!s.empty() && i < inputWords.size())
         {
-            string stackP = s.top();
+            attribute stackP = s.top();
             s.pop();
             //  cout << "ssss "  << stackP << " " << i << " " << inputWords[i] << endl ;
-            if (stackP == "synch")
+            if (stackP.name == "synch")
             {
 
                 PrintingInOut(i, s, errorMes, inputWords, stackP);
@@ -143,47 +154,54 @@ void TableBuilder::lastInput(string firstNon)
                 continue;
             }
 
-            if (stackP == "eeee")
+            if (stackP.name == "eeee")
             {
                 continue;
             }
 
-            if (!isTerminal(stackP))
+            if (stackP.name[0] == '<' && stackP.name.size() > 2 ){
+                cout << stackP.name << endl ; 
+                continue ;
+            }
+            if (!isTerminal(stackP.name))
             {
                 // may the string from table must spilt
 
                 PrintingInOut(i, s, errorMes, inputWords, stackP);
-                if (table[{stackP, inputWords[i]}] != "")
+                if (table[{stackP.name, inputWords[i]}] != "")
                 {
-                    vector<string> ss = tokenize(table[{stackP, inputWords[i]}]);
+                    vector<string> ss = tokenize(table[{stackP.name, inputWords[i]}]);
                     for (int j = ss.size() - 1; j >= 0; j--)
                     {
-                        if (ss[j] != " " && ss[j] != "")
-                            s.push(ss[j]);
+                        if (ss[j] != " " && ss[j] != ""){
+                            attribute b ; 
+                            b.name = ss[j] ; 
+                            s.push(b);
+                         }
                     }
                 }
                 else
                 {
                     //PrintingInOut(  i , s, errorMes,inputWords, stackP);
                     errorMes.push_back("error in table\n");
-                    errorMes.push_back(stackP + " " + inputWords[i]);
+                    errorMes.push_back(stackP.name + " " + inputWords[i]);
                     break;
                     //cout << "Www " << stackP << " ff " << inputWords[i] << endl ;
                 }
 
                 // handel error of not found , i can handel it alone as prev but of good message i prefer not
-                if (s.top() == "error")
+                if (s.top().name == "error")
                 {
 
                     PrintingInOut(i, s, errorMes, inputWords, stackP);
-                    errorMes.push_back(stackP + "Error:(illegal " + stackP + ") discard " + inputWords[i] + "\n");
+                    errorMes.push_back(stackP.name + "Error:(illegal " + stackP.name + ") discard " + inputWords[i] + "\n");
                     s.pop();
                     s.push(stackP);
                     i++;
                 }
                 else
                 {
-                    errorMes.push_back(stackP + " to " + table[{stackP, inputWords[i]}] + "\n");
+                    errorMes.push_back(stackP.name + " to " + table[{stackP.name, inputWords[i]}] + "\n");
                 }
                 continue;
             }
@@ -191,17 +209,17 @@ void TableBuilder::lastInput(string firstNon)
             // here is  terminal
             //  stackP.substr( 1 , stackP.size() -1  ) ; // tryig to remove ' '
 
-            if (stackP != inputWords[i])
+            if (stackP.name != inputWords[i])
             {
 
                 PrintingInOut(i, s, errorMes, inputWords, stackP);
-                errorMes.push_back(stackP + " Error: missing " + inputWords[i] + ", inserted \n");
+                errorMes.push_back(stackP.name + " Error: missing " + inputWords[i] + ", inserted \n");
                 continue;
             }
 
             // they are similar
             PrintingInOut(i, s, errorMes, inputWords, stackP);
-            errorMes.push_back("match " + stackP + "\n");
+            errorMes.push_back("match " + stackP.name + "\n");
             i++;
         }
 
@@ -248,11 +266,11 @@ void TableBuilder::print()
     }
 }
 
-void TableBuilder::PrintingInOut(int i, stack<string> &s, vector<string> &errorMes, vector<string> &inputWords, string stackP)
+void TableBuilder::PrintingInOut(int i, stack<attribute> &s, vector<string> &errorMes, vector<string> &inputWords, attribute stackP)
 {
 
-    stack<string> temp = s;
-    vector<string> temp2;
+    stack<attribute> temp = s;
+    vector<attribute> temp2;
     string my_stack = "";
     while (!temp.empty())
     {
@@ -260,8 +278,8 @@ void TableBuilder::PrintingInOut(int i, stack<string> &s, vector<string> &errorM
         temp.pop();
     }
     for (int k = temp2.size() - 1; k >= 0; k--)
-        my_stack += temp2[k] + " ";
-    my_stack += stackP + "\n";
+        my_stack += temp2[k].name + " ";
+    my_stack += stackP.name + "\n";
     errorMes.push_back(my_stack);
     string my_input = "";
     for (int k = inputWords.size() - 1; k >= i; k--)

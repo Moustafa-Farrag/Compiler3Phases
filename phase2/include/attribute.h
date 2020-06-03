@@ -8,22 +8,16 @@ class attribute
 {
 private:
     
-    string value ; 
-    string type ; 
-    string  code ; 
-    vector <int> trueList ; 
-    vector <int> flaseList; 
     
 
 public:
-    attribute(/* args */);
-    ~attribute();
+
+    string name ;    
+    string value ; 
+    string type ; 
+    string  code ; 
+    string inter ; 
+    vector <int> trueList ; 
+    vector <int> flaseList; 
 };
 
-attribute::attribute(/* args */)
-{
-}
-
-attribute::~attribute()
-{
-}

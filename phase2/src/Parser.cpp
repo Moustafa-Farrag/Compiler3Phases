@@ -346,9 +346,11 @@ unordered_map<string , set<string>> Parser::print()
   
   for (auto a : nonTerminal){
      set <string> newSet ; 
+     int counter = 0 ; 
       for (auto b : a.second){
-         newSet.insert(rtrim(b)) ;
+         newSet.insert(rtrim(b)/* + " <" + a.first + to_string(counter) +">"*/) ;
          cout << a.first << " -> " << b << endl;
+         counter++;
       }
       newMap[a.first] = newSet ;
      // cout  << "----------------------------" << endl ; 
