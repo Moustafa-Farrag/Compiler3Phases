@@ -15,9 +15,10 @@ class ActionMaker {
         int varCounter;
         unordered_map<string,pair<int,string>> variables;
         void handlePT(vector<attribute> finalStack);
-        void handleDeclaration(vector<attribute> finalStack, string lex);
+        void handleDeclaration(vector<attribute> finalStack, string lex );
+
     public:
-        void make(string action,vector<attribute> finalStack, string lex);
+        void make(string action,vector<attribute> finalStack, string lex ,  stack<attribute> s);
         ActionMaker();
 };
 

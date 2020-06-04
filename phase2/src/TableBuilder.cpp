@@ -2,6 +2,7 @@
 // Created by zeny on 4/15/20.
 //
 
+#include "../include/ActionMaker.h"
 #include "../include/TableBuilder.h"
 #include <utility>
 
@@ -130,6 +131,7 @@ void TableBuilder::lastInput(string firstNon)
     }
 
     // ----------
+    vector <attribute> finals ; 
     stack<attribute> s;
     attribute a; 
     a.name = "\'$\'" ; 
@@ -161,8 +163,17 @@ void TableBuilder::lastInput(string firstNon)
 
             if (stackP.name[0] == '<' && stackP.name.size() > 2 ){
                 cout << stackP.name << endl ; 
+                for ( int k = 0 ; k < finals.size() ; k++ ) {
+                    cout << finals[k].name << " " ;
+                }
+                cout << endl  << s.top().name << endl ; 
+                cout << "----------" << endl ;
+                // make 
                 continue ;
             }
+
+            finals.push_back(stackP);
+            
             if (!isTerminal(stackP.name))
             {
                 // may the string from table must spilt

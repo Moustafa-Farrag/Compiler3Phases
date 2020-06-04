@@ -9,11 +9,11 @@ ActionMaker::ActionMaker(){
     varCounter=1;
 }
 
-void ActionMaker::make(string action, vector<attribute> finalStack, string lex) {
+void ActionMaker::make(string action, vector<attribute> finalStack, string lex , stack<attribute> s ) {
     if(action.compare("<PRIMITIVE_TYPE10>")==0)
         handlePT(finalStack);
     else if(action.compare("<DECLARATION01>")==0)
-        handleDeclaration(finalStack,lex);
+        handleDeclaration(finalStack,lex ) ;
 }
 
 void ActionMaker::handlePT(vector<attribute> finalStack) {
