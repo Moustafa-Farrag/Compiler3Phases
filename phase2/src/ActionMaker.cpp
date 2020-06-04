@@ -28,7 +28,7 @@ void ActionMaker::make(string action, vector<attribute> finalStack, string lex ,
 void ActionMaker::handlePT(vector<attribute> finalStack) {
     attribute a=finalStack.back();
     finalStack.pop_back() ; 
-    finalStack.back().type = a.name;
+    finalStack.back().type = a.value;
 }
 
 void ActionMaker::handleDeclaration(vector<attribute> finalStack, string lex) {

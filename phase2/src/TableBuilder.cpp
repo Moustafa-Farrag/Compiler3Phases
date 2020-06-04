@@ -231,7 +231,7 @@ void TableBuilder::lastInput(string firstNon)
             }
 
             // they are similar
-            
+            finals.back().value = stackP.name ; 
             PrintingInOut(i, s, errorMes, inputWords, stackP);
             errorMes.push_back("match " + stackP.name + "\n");
             i++;
