@@ -11,6 +11,8 @@ using namespace std;
 
 class ActionMaker {
     private:
+        int addressCounter;
+        int varCounter;
         unordered_map<string,pair<int,string>> variables;
         void handlePT(vector<attribute> finalStack);
         void handleDeclaration(vector<attribute> finalStack, string lex);
