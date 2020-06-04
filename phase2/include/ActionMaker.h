@@ -12,9 +12,12 @@ using namespace std;
 class ActionMaker {
     private:
         unordered_map<string,pair<int,string>> variables;
+        void handlePT(vector<attribute> finalStack);
+        void handleDeclaration(vector<attribute> finalStack, string lex);
     public:
-        void make(vector<attribute> finalStack, string lex);
-}
+        void make(string action,vector<attribute> finalStack, string lex);
+        ActionMaker();
+};
 
 
 #endif //COMPILER3PHASES_ACTIONMAKER_H
