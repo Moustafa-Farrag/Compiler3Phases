@@ -1,2 +1,2 @@
-# DECLARATION = PRIMITIVE_TYPE 'id' ';'
-# PRIMITIVE_TYPE = 'int' | 'float'
+# DECLARATION = PRIMITIVE_TYPE 'id' ';'  
+# PRIMITIVE_TYPE = 'int' | 'float' 

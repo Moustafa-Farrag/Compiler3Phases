@@ -116,7 +116,7 @@ void TableBuilder::lastInput(string firstNon)
 
     vector<string> inputWords;
     vector<string> lexs;
-
+    ActionMaker actionMaker;
     // reading input
     fstream file;
     string word, lex, dash, t, q, filename;
@@ -169,6 +169,8 @@ void TableBuilder::lastInput(string firstNon)
                 cout << endl  << s.top().name << endl ; 
                 cout << "----------" << endl ;
                 // make 
+                actionMaker.make(stackP.name , finals , lexs[i] , s ) ; 
+
                 continue ;
             }
 
@@ -229,6 +231,7 @@ void TableBuilder::lastInput(string firstNon)
             }
 
             // they are similar
+            
             PrintingInOut(i, s, errorMes, inputWords, stackP);
             errorMes.push_back("match " + stackP.name + "\n");
             i++;

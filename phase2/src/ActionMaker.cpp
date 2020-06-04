@@ -10,24 +10,39 @@ ActionMaker::ActionMaker(){
 }
 
 void ActionMaker::make(string action, vector<attribute> finalStack, string lex , stack<attribute> s ) {
+
+    /*
+        PRIMITIVE_TYPE to PRIMITIVE_TYPE  'id'  ';' 
+        DECLARATION to 
+                PRIMITIVE_TYPE  'id'   <DECLARATION02> 
+        stack         <DECLARATION02>
+        final DECLARATION  
+        int aa ; 
+    */
     if(action.compare("<PRIMITIVE_TYPE10>")==0)
         handlePT(finalStack);
-    else if(action.compare("<DECLARATION01>")==0)
+    else if(action.compare("<DECLARATION02>")==0)
         handleDeclaration(finalStack,lex ) ;
 }
 
 void ActionMaker::handlePT(vector<attribute> finalStack) {
     attribute a=finalStack.back();
-    finalStack.back().type=a.name;
+    finalStack.pop_back() ; 
+    finalStack.back().type = a.name;
 }
 
 void ActionMaker::handleDeclaration(vector<attribute> finalStack, string lex) {
-    attribute a=finalStack.end()[-2];
-    finalStack.back().type=a.type;
-    pair<int,string>p;
-    p.first=varCounter++;
-    p.second=a.type;
-    variables[lex]=p;
+    finalStack.pop_back() ; 
+    attribute id = finalStack.back() ;
+    finalStack.pop_back() ; 
+    attribute pt = finalStack.back() ;
+    finalStack.pop_back() ; 
+    finalStack.back().type  = pt.type ; 
+    finalStack.back().value = id.value ; 
+    // -- - --- - -- -
+    pair <int , string >  aa = { varCounter++ , pt.type } ;
+    variables[id.value] = aa ; 
+   // variables
 }
 
 
