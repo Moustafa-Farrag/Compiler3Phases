@@ -5,7 +5,8 @@
 #ifndef UNTITLED_TABLEBUILDER_H
 #define UNTITLED_TABLEBUILDER_H
 #include <bits/stdc++.h>
-#include "attribute.h"
+#include "../include/ActionMaker.h"
+#include <utility>
 using namespace std;
 
 class TableBuilder {

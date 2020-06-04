@@ -2,9 +2,7 @@
 // Created by zeny on 4/15/20.
 //
 
-#include "../include/ActionMaker.h"
 #include "../include/TableBuilder.h"
-#include <utility>
 
 TableBuilder::TableBuilder(unordered_map<string, set<string>> first, unordered_map<string, set<string>> follow,
                            unordered_map<string, set<string>> productions)
