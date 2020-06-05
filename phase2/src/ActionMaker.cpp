@@ -89,8 +89,9 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         cout << "***********************++++" << endl;
         */
         s.top().type = aa.type ; 
-        s.top().value = "non" ; 
-        s.top().code.push_back(codeOFmulandAdd(aa.type, bb.type, cc.value , cc.name , action));
+        s.top().value = "non" ;
+        string ad = to_string(addressCounter++) + ": "+ codeOFmulandAdd(aa.type, bb.type, cc.value , cc.name , action);
+        s.top().code.push_back(ad);
 
     }
     else if (action == "<TERM'02>" || action == "<SIMPLE_EXPRESSION'02>")
@@ -103,12 +104,13 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         finalStack.back().type = aa.type;
         finalStack.back().value = aa.value;
     }
-    else if (action == "<TERM01>" || action == "<SIMPLE_EXPRESSION11>" || action == "<EXPRESSION01>")
+    else if (action == "<TERM01>" || action == "<SIMPLE_EXPRESSION11>" || action == "<EXPRESSION01>" || action == "<EXPRESSION001>")
     {
         attribute temp = finalStack.back();
         finalStack.pop_back();
         finalStack.pop_back();
-        finalStack.back().code = temp.code;
+        for(auto i : temp.code)
+            finalStack.back().code.push_back(i);
         finalStack.back().type = temp.type;
         finalStack.back().value = temp.value;
     }
@@ -125,9 +127,11 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         finalStack.pop_back();
         finalStack.back().code = Ex.code;
         if ( Ex.type == "\'float\'" ){
-            finalStack.back().code.push_back("fload num");
+            string ad = to_string(addressCounter++) + ": ";
+            finalStack.back().code.push_back(ad+"fload num");
         } else if ( Ex.type == "\'float\'" ) {
-            finalStack.back().code.push_back("iload num");
+            string ad = to_string(addressCounter++) + ": ";
+            finalStack.back().code.push_back("ad+iload num");
         }
         /* code */
     }
@@ -137,6 +141,28 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         attribute Assigin = finalStack.back();
         finalStack.pop_back();
         finalStack.back().code = Assigin.code;
+    }else if (action == "<IF04>" ){
+        finalStack.pop_back() ;
+        finalStack.pop_back() ;
+        attribute temp = finalStack.back();
+        finalStack.pop_back() ;
+        finalStack.pop_back() ;
+        finalStack.pop_back() ;
+        finalStack.back().trueList.push_back(addressCounter)  ;
+        string ad= to_string(addressCounter)+": ";
+        addressCounter+=3;
+        finalStack.back().code=temp.code;
+        finalStack.back().code.push_back(ad +"if_icmplt");
+    }else if (action == "<IF06>" ){
+        finalStack.pop_back() ;
+        attribute st=finalStack.back();
+        finalStack.pop_back() ;
+        finalStack.back().flaseList.push_back(addressCounter)  ;
+        string ifIns =finalStack.back().code.back()+"   "+to_string(addressCounter);
+        finalStack.back().code.pop_back();
+        finalStack.back().code.push_back(ifIns);
+        for(auto i:st.code)
+            finalStack.back().code.push_back(i);
     }
 }
 
