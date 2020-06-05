@@ -159,18 +159,27 @@ void TableBuilder::lastInput(string firstNon)
                 continue;
             }
 
-            if (stackP.name[0] == '<' && stackP.name.size() > 2 ){
+           if (stackP.name[0] == '<' && stackP.name.size() > 2 ){
                 cout << stackP.name << endl ; 
                 for ( int k = 0 ; k < finals.size() ; k++ ) {
                     cout << finals[k].name << " " ;
                 }
                 cout << endl  << s.top().name << endl ; 
                 cout << "----------" << endl ;
-                // make 
+                
+               
                 actionMaker.make(stackP.name , finals , lexs[i] , s ) ; 
 
+                 cout <<  finals.back().name << " +++++++++++++++" << endl ;
+                // make 
+                for ( int j = 0 ; j < finals.back().code.size() ; j++ ){
+                    cout << finals.back().code[j] << endl ; 
+                } 
+                cout << "+++++++++++++++" << endl ;
+            
                 continue ;
-            }
+
+            } 
 
             finals.push_back(stackP);
             
@@ -236,10 +245,10 @@ void TableBuilder::lastInput(string firstNon)
         }
 
        // cout << finals[0].name << " " << finals[0].type << " "  << finals[0].value ; 
-      for ( int j = 0 ; j < finals[0].code.size() ; j++ ){
+     /* for ( int j = 0 ; j < finals[0].code.size() ; j++ ){
            cout << "ggggggggggggg" << endl ; 
            cout << finals[0].code[j] << endl ; 
-       } 
+       } */
 
         if (s.empty() && i == inputWords.size())
         {

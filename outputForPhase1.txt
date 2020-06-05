@@ -1,7 +1,8 @@
-int : int
-id : x
-; : ;
-id : x
+id : ahemd
 assign : =
-num : 5
+id : mostaf
+addop : +
+id : asdf
+mulop : *
+id : mos
 ; : ;

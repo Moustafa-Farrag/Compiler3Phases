@@ -25,7 +25,7 @@ void ActionMaker::make(string action, vector<attribute>& finalStack, string lex 
         handleDeclaration(finalStack,lex ) ;
     else if (action == "<FACTOR10>" || action == "<FACTOR20>" ) {
         factor(finalStack) ;
-    }else if (action == "<TERM00>" ||  action == "<SIMPLE_EXPRESSION10>"  ) {
+    }else if (action == "<TERM00>" ||  action == "<SIMPLE_EXPRESSION10>" || action == "<EXPRESSION00>" ) {
        attribute aa = finalStack.back() ; 
         for ( int i = 0 ; i < aa.code.size() ; i++) {
             cout << aa.code[i] << " aa00"<< endl ; 
@@ -72,12 +72,32 @@ void ActionMaker::make(string action, vector<attribute>& finalStack, string lex 
         finalStack.pop_back();
         finalStack.pop_back();
         finalStack.back().code = aa.code ; 
-    } else if ( action == "<TERM01>" || action == "<SIMPLE_EXPRESSION11>") {
+    } else if ( action == "<TERM01>" || action == "<SIMPLE_EXPRESSION11>" || action == "<EXPRESSION01>" ) {
         attribute temp = finalStack.back(); 
         finalStack.pop_back();
         finalStack.pop_back();
         finalStack.back().code = temp.code ; 
-    } 
+    } else if (action == "<ASSIGNMENT03>" ) 
+    {
+        // ASSIGNMENT 'id' 'assign' EXPRESSION ';' 
+        attribute Coma = finalStack.back(); 
+        finalStack.pop_back() ; 
+        attribute Ex = finalStack.back(); 
+        finalStack.pop_back() ; 
+        attribute Assing = finalStack.back(); 
+        finalStack.pop_back() ; 
+        attribute Id = finalStack.back(); 
+        finalStack.pop_back() ; 
+        finalStack.back().code = Ex.code ; 
+        finalStack.back().code.push_back("iload num") ;
+        /* code */
+    } if ( action == "<STATEMENT00>" ) {
+        cout << "finshed........" << endl  ; 
+        attribute Assigin = finalStack.back(); 
+        finalStack.pop_back() ; 
+        finalStack.back().code = Assigin.code ; 
+    }
+    
 
 }
 
