@@ -1,3 +1,8 @@
-int : int
-id : aa
+id : ahemd
+assign : =
+id : mostaf
+addop : +
+id : asdf
+mulop : *
+id : mos
 ; : ;

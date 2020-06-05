@@ -77,52 +77,590 @@ state 71:          id        id        id        id        id        id        i
 state 72:         num|--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------|       num       num       num       num       num       num       num       num       num       num|--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------|
 state 73:     private        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id|--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------|
 state 74:     boolean        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id        id|--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------||--------|
+ASSIGNMENT -> 'id' 'assign' EXPRESSION ';'
 DECLARATION -> PRIMITIVE_TYPE 'id' ';'
+EXPRESSION -> SIMPLE_EXPRESSION EXPRESSION0
+EXPRESSION0 -> 'relop' SIMPLE_EXPRESSION
+EXPRESSION0 -> eeee
+FACTOR -> '(' EXPRESSION ')'
+FACTOR -> 'id'
+FACTOR -> 'num'
+IF -> 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}'
 PRIMITIVE_TYPE -> 'float'
 PRIMITIVE_TYPE -> 'int'
+SIGN -> '+'
+SIGN -> '-'
+SIMPLE_EXPRESSION -> SIGN TERM SIMPLE_EXPRESSION'
+SIMPLE_EXPRESSION -> TERM SIMPLE_EXPRESSION'
+SIMPLE_EXPRESSION' -> 'addop' TERM SIMPLE_EXPRESSION'
+SIMPLE_EXPRESSION' -> eeee
+STATEMENT -> ASSIGNMENT
+STATEMENT -> DECLARATION
+STATEMENT -> IF
+STATEMENT -> WHILE
+TERM -> FACTOR TERM'
+TERM' -> 'mulop' FACTOR TERM'
+TERM' -> eeee
+WHILE -> 'while' '(' EXPRESSION ')' '{' STATEMENT '}'
 ----------------------------
+:
+SIMPLE_EXPRESSION' 'addop' TERM SIMPLE_EXPRESSION'
+SIMPLE_EXPRESSION' eeee
+:
+STATEMENT ASSIGNMENT
+STATEMENT DECLARATION
+STATEMENT IF
+STATEMENT WHILE
+:
+ASSIGNMENT 'id' 'assign' EXPRESSION ';'
+:
+WHILE 'while' '(' EXPRESSION ')' '{' STATEMENT '}'
 :
 PRIMITIVE_TYPE 'float'
 PRIMITIVE_TYPE 'int'
 :
 DECLARATION PRIMITIVE_TYPE 'id' ';'
+:
+SIGN '+'
+SIGN '-'
+:
+EXPRESSION0 'relop' SIMPLE_EXPRESSION
+EXPRESSION0 eeee
+:
+EXPRESSION SIMPLE_EXPRESSION EXPRESSION0
+:
+IF 'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}'
+:
+FACTOR '(' EXPRESSION ')'
+FACTOR 'id'
+FACTOR 'num'
+:
+SIMPLE_EXPRESSION SIGN TERM SIMPLE_EXPRESSION'
+SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION'
+:
+TERM' 'mulop' FACTOR TERM'
+TERM' eeee
+:
+TERM FACTOR TERM'
 ----------------------------
 -----------------------------
-PRIMITIVE_TYPE 'id' ';':   'float'  'int'  
-DECLARATION:   'float'  'int'  
-PRIMITIVE_TYPE:   'float'  'int'  
-'int':   'int'  
+WHILE:   'while'  
+TERM':   'mulop'  eeee  
+eeee:   eeee  
+SIMPLE_EXPRESSION':   'addop'  eeee  
+TERM SIMPLE_EXPRESSION':   '('  'id'  'num'  
+SIMPLE_EXPRESSION:   '('  '+'  '-'  'id'  'num'  
+SIGN TERM SIMPLE_EXPRESSION':   '+'  '-'  
+TERM:   '('  'id'  'num'  
+IF:   'if'  
+FACTOR TERM':   '('  'id'  'num'  
+FACTOR:   '('  'id'  'num'  
+'assign':   'assign'  
 'id':   'id'  
+'addop' TERM SIMPLE_EXPRESSION':   'addop'  
+'addop':   'addop'  
+'-':   '-'  
+'while':   'while'  
+'num':   'num'  
+SIGN:   '+'  '-'  
+ASSIGNMENT:   'id'  
+'+':   '+'  
+EXPRESSION:   '('  '+'  '-'  'id'  'num'  
+EXPRESSION0:   'relop'  eeee  
+'else':   'else'  
+'(' EXPRESSION ')':   '('  
 'float':   'float'  
+'mulop':   'mulop'  
+'(':   '('  
+'id' 'assign' EXPRESSION ';':   'id'  
+'mulop' FACTOR TERM':   'mulop'  
+'if':   'if'  
+'relop':   'relop'  
+'if' '(' EXPRESSION ')' '{' STATEMENT '}' 'else' '{' STATEMENT '}':   'if'  
+STATEMENT:   'float'  'id'  'if'  'int'  'while'  
+'int':   'int'  
 ';':   ';'  
+'while' '(' EXPRESSION ')' '{' STATEMENT '}':   'while'  
+PRIMITIVE_TYPE:   'float'  'int'  
+')':   ')'  
+'{':   '{'  
+SIMPLE_EXPRESSION EXPRESSION0:   '('  '+'  '-'  'id'  'num'  
+PRIMITIVE_TYPE 'id' ';':   'float'  'int'  
+'relop' SIMPLE_EXPRESSION:   'relop'  
+'}':   '}'  
+DECLARATION:   'float'  'int'  
 -----------------------------
-DECLARATION:   '$'  
+SIMPLE_EXPRESSION':   ')'  ';'  'relop'  
+STATEMENT:   '$'  '}'  
+ASSIGNMENT:   '$'  '}'  
 PRIMITIVE_TYPE:   'id'  
+WHILE:   '$'  '}'  
+DECLARATION:   '$'  '}'  
+SIGN:   '('  'id'  'num'  
+EXPRESSION0:   ')'  ';'  
+EXPRESSION:   ')'  ';'  
+IF:   '$'  '}'  
+FACTOR:   ')'  ';'  'addop'  'mulop'  'relop'  
+SIMPLE_EXPRESSION:   ')'  ';'  'relop'  
+TERM:   ')'  ';'  'addop'  'relop'  
+TERM':   ')'  ';'  'addop'  'relop'  
 
 ------table--------
+ASSIGNMENT ,'$' :synch
+ASSIGNMENT ,'(' :error
+ASSIGNMENT ,')' :error
+ASSIGNMENT ,'+' :error
+ASSIGNMENT ,'-' :error
+ASSIGNMENT ,';' :error
+ASSIGNMENT ,'addop' :error
+ASSIGNMENT ,'assign' :error
+ASSIGNMENT ,'else' :error
+ASSIGNMENT ,'float' :error
+ASSIGNMENT ,'id' :'id' <ASSIGNMENT00> 'assign' <ASSIGNMENT01> EXPRESSION <ASSIGNMENT02> ';' <ASSIGNMENT03> 
+ASSIGNMENT ,'if' :error
+ASSIGNMENT ,'int' :error
+ASSIGNMENT ,'mulop' :error
+ASSIGNMENT ,'num' :error
+ASSIGNMENT ,'relop' :error
+ASSIGNMENT ,'while' :error
+ASSIGNMENT ,'{' :error
+ASSIGNMENT ,'}' :synch
 DECLARATION ,'$' :synch
+DECLARATION ,'(' :error
+DECLARATION ,')' :error
+DECLARATION ,'+' :error
+DECLARATION ,'-' :error
 DECLARATION ,';' :error
+DECLARATION ,'addop' :error
+DECLARATION ,'assign' :error
+DECLARATION ,'else' :error
 DECLARATION ,'float' :PRIMITIVE_TYPE <DECLARATION00> 'id' <DECLARATION01> ';' <DECLARATION02> 
 DECLARATION ,'id' :error
+DECLARATION ,'if' :error
 DECLARATION ,'int' :PRIMITIVE_TYPE <DECLARATION00> 'id' <DECLARATION01> ';' <DECLARATION02> 
+DECLARATION ,'mulop' :error
+DECLARATION ,'num' :error
+DECLARATION ,'relop' :error
+DECLARATION ,'while' :error
+DECLARATION ,'{' :error
+DECLARATION ,'}' :synch
+EXPRESSION ,'$' :error
+EXPRESSION ,'(' :SIMPLE_EXPRESSION <EXPRESSION00> EXPRESSION0 <EXPRESSION01> 
+EXPRESSION ,')' :synch
+EXPRESSION ,'+' :SIMPLE_EXPRESSION <EXPRESSION00> EXPRESSION0 <EXPRESSION01> 
+EXPRESSION ,'-' :SIMPLE_EXPRESSION <EXPRESSION00> EXPRESSION0 <EXPRESSION01> 
+EXPRESSION ,';' :synch
+EXPRESSION ,'addop' :error
+EXPRESSION ,'assign' :error
+EXPRESSION ,'else' :error
+EXPRESSION ,'float' :error
+EXPRESSION ,'id' :SIMPLE_EXPRESSION <EXPRESSION00> EXPRESSION0 <EXPRESSION01> 
+EXPRESSION ,'if' :error
+EXPRESSION ,'int' :error
+EXPRESSION ,'mulop' :error
+EXPRESSION ,'num' :SIMPLE_EXPRESSION <EXPRESSION00> EXPRESSION0 <EXPRESSION01> 
+EXPRESSION ,'relop' :error
+EXPRESSION ,'while' :error
+EXPRESSION ,'{' :error
+EXPRESSION ,'}' :error
+EXPRESSION0 ,'$' :error
+EXPRESSION0 ,'(' :error
+EXPRESSION0 ,')' :eeee
+EXPRESSION0 ,'+' :error
+EXPRESSION0 ,'-' :error
+EXPRESSION0 ,';' :eeee
+EXPRESSION0 ,'addop' :error
+EXPRESSION0 ,'assign' :error
+EXPRESSION0 ,'else' :error
+EXPRESSION0 ,'float' :error
+EXPRESSION0 ,'id' :error
+EXPRESSION0 ,'if' :error
+EXPRESSION0 ,'int' :error
+EXPRESSION0 ,'mulop' :error
+EXPRESSION0 ,'num' :error
+EXPRESSION0 ,'relop' :'relop' <EXPRESSION000> SIMPLE_EXPRESSION <EXPRESSION001> 
+EXPRESSION0 ,'while' :error
+EXPRESSION0 ,'{' :error
+EXPRESSION0 ,'}' :error
+FACTOR ,'$' :error
+FACTOR ,'(' :'(' <FACTOR00> EXPRESSION <FACTOR01> ')' <FACTOR02> 
+FACTOR ,')' :synch
+FACTOR ,'+' :error
+FACTOR ,'-' :error
+FACTOR ,';' :synch
+FACTOR ,'addop' :synch
+FACTOR ,'assign' :error
+FACTOR ,'else' :error
+FACTOR ,'float' :error
+FACTOR ,'id' :'id' <FACTOR10> 
+FACTOR ,'if' :error
+FACTOR ,'int' :error
+FACTOR ,'mulop' :synch
+FACTOR ,'num' :'num' <FACTOR20> 
+FACTOR ,'relop' :synch
+FACTOR ,'while' :error
+FACTOR ,'{' :error
+FACTOR ,'}' :error
+IF ,'$' :synch
+IF ,'(' :error
+IF ,')' :error
+IF ,'+' :error
+IF ,'-' :error
+IF ,';' :error
+IF ,'addop' :error
+IF ,'assign' :error
+IF ,'else' :error
+IF ,'float' :error
+IF ,'id' :error
+IF ,'if' :'if' <IF00> '(' <IF01> EXPRESSION <IF02> ')' <IF03> '{' <IF04> STATEMENT <IF05> '}' <IF06> 'else' <IF07> '{' <IF08> STATEMENT <IF09> '}' <IF010> 
+IF ,'int' :error
+IF ,'mulop' :error
+IF ,'num' :error
+IF ,'relop' :error
+IF ,'while' :error
+IF ,'{' :error
+IF ,'}' :synch
 PRIMITIVE_TYPE ,'$' :error
+PRIMITIVE_TYPE ,'(' :error
+PRIMITIVE_TYPE ,')' :error
+PRIMITIVE_TYPE ,'+' :error
+PRIMITIVE_TYPE ,'-' :error
 PRIMITIVE_TYPE ,';' :error
+PRIMITIVE_TYPE ,'addop' :error
+PRIMITIVE_TYPE ,'assign' :error
+PRIMITIVE_TYPE ,'else' :error
 PRIMITIVE_TYPE ,'float' :'float' <PRIMITIVE_TYPE00> 
 PRIMITIVE_TYPE ,'id' :synch
+PRIMITIVE_TYPE ,'if' :error
 PRIMITIVE_TYPE ,'int' :'int' <PRIMITIVE_TYPE10> 
-<PRIMITIVE_TYPE10>
-DECLARATION PRIMITIVE_TYPE 'int' <DECLARATION00>
-
+PRIMITIVE_TYPE ,'mulop' :error
+PRIMITIVE_TYPE ,'num' :error
+PRIMITIVE_TYPE ,'relop' :error
+PRIMITIVE_TYPE ,'while' :error
+PRIMITIVE_TYPE ,'{' :error
+PRIMITIVE_TYPE ,'}' :error
+SIGN ,'$' :error
+SIGN ,'(' :synch
+SIGN ,')' :error
+SIGN ,'+' :'+' <SIGN00> 
+SIGN ,'-' :'-' <SIGN10> 
+SIGN ,';' :error
+SIGN ,'addop' :error
+SIGN ,'assign' :error
+SIGN ,'else' :error
+SIGN ,'float' :error
+SIGN ,'id' :synch
+SIGN ,'if' :error
+SIGN ,'int' :error
+SIGN ,'mulop' :error
+SIGN ,'num' :synch
+SIGN ,'relop' :error
+SIGN ,'while' :error
+SIGN ,'{' :error
+SIGN ,'}' :error
+SIMPLE_EXPRESSION ,'$' :error
+SIMPLE_EXPRESSION ,'(' :TERM <SIMPLE_EXPRESSION10> SIMPLE_EXPRESSION' <SIMPLE_EXPRESSION11> 
+SIMPLE_EXPRESSION ,')' :synch
+SIMPLE_EXPRESSION ,'+' :SIGN <SIMPLE_EXPRESSION00> TERM <SIMPLE_EXPRESSION01> SIMPLE_EXPRESSION' <SIMPLE_EXPRESSION02> 
+SIMPLE_EXPRESSION ,'-' :SIGN <SIMPLE_EXPRESSION00> TERM <SIMPLE_EXPRESSION01> SIMPLE_EXPRESSION' <SIMPLE_EXPRESSION02> 
+SIMPLE_EXPRESSION ,';' :synch
+SIMPLE_EXPRESSION ,'addop' :error
+SIMPLE_EXPRESSION ,'assign' :error
+SIMPLE_EXPRESSION ,'else' :error
+SIMPLE_EXPRESSION ,'float' :error
+SIMPLE_EXPRESSION ,'id' :TERM <SIMPLE_EXPRESSION10> SIMPLE_EXPRESSION' <SIMPLE_EXPRESSION11> 
+SIMPLE_EXPRESSION ,'if' :error
+SIMPLE_EXPRESSION ,'int' :error
+SIMPLE_EXPRESSION ,'mulop' :error
+SIMPLE_EXPRESSION ,'num' :TERM <SIMPLE_EXPRESSION10> SIMPLE_EXPRESSION' <SIMPLE_EXPRESSION11> 
+SIMPLE_EXPRESSION ,'relop' :synch
+SIMPLE_EXPRESSION ,'while' :error
+SIMPLE_EXPRESSION ,'{' :error
+SIMPLE_EXPRESSION ,'}' :error
+SIMPLE_EXPRESSION' ,'$' :error
+SIMPLE_EXPRESSION' ,'(' :error
+SIMPLE_EXPRESSION' ,')' :eeee
+SIMPLE_EXPRESSION' ,'+' :error
+SIMPLE_EXPRESSION' ,'-' :error
+SIMPLE_EXPRESSION' ,';' :eeee
+SIMPLE_EXPRESSION' ,'addop' :'addop' <SIMPLE_EXPRESSION'00> TERM <SIMPLE_EXPRESSION'01> SIMPLE_EXPRESSION' <SIMPLE_EXPRESSION'02> 
+SIMPLE_EXPRESSION' ,'assign' :error
+SIMPLE_EXPRESSION' ,'else' :error
+SIMPLE_EXPRESSION' ,'float' :error
+SIMPLE_EXPRESSION' ,'id' :error
+SIMPLE_EXPRESSION' ,'if' :error
+SIMPLE_EXPRESSION' ,'int' :error
+SIMPLE_EXPRESSION' ,'mulop' :error
+SIMPLE_EXPRESSION' ,'num' :error
+SIMPLE_EXPRESSION' ,'relop' :eeee
+SIMPLE_EXPRESSION' ,'while' :error
+SIMPLE_EXPRESSION' ,'{' :error
+SIMPLE_EXPRESSION' ,'}' :error
+STATEMENT ,'$' :synch
+STATEMENT ,'(' :error
+STATEMENT ,')' :error
+STATEMENT ,'+' :error
+STATEMENT ,'-' :error
+STATEMENT ,';' :error
+STATEMENT ,'addop' :error
+STATEMENT ,'assign' :error
+STATEMENT ,'else' :error
+STATEMENT ,'float' :DECLARATION <STATEMENT10> 
+STATEMENT ,'id' :ASSIGNMENT <STATEMENT00> 
+STATEMENT ,'if' :IF <STATEMENT20> 
+STATEMENT ,'int' :DECLARATION <STATEMENT10> 
+STATEMENT ,'mulop' :error
+STATEMENT ,'num' :error
+STATEMENT ,'relop' :error
+STATEMENT ,'while' :WHILE <STATEMENT30> 
+STATEMENT ,'{' :error
+STATEMENT ,'}' :synch
+TERM ,'$' :error
+TERM ,'(' :FACTOR <TERM00> TERM' <TERM01> 
+TERM ,')' :synch
+TERM ,'+' :error
+TERM ,'-' :error
+TERM ,';' :synch
+TERM ,'addop' :synch
+TERM ,'assign' :error
+TERM ,'else' :error
+TERM ,'float' :error
+TERM ,'id' :FACTOR <TERM00> TERM' <TERM01> 
+TERM ,'if' :error
+TERM ,'int' :error
+TERM ,'mulop' :error
+TERM ,'num' :FACTOR <TERM00> TERM' <TERM01> 
+TERM ,'relop' :synch
+TERM ,'while' :error
+TERM ,'{' :error
+TERM ,'}' :error
+TERM' ,'$' :error
+TERM' ,'(' :error
+TERM' ,')' :eeee
+TERM' ,'+' :error
+TERM' ,'-' :error
+TERM' ,';' :eeee
+TERM' ,'addop' :eeee
+TERM' ,'assign' :error
+TERM' ,'else' :error
+TERM' ,'float' :error
+TERM' ,'id' :error
+TERM' ,'if' :error
+TERM' ,'int' :error
+TERM' ,'mulop' :'mulop' <TERM'00> FACTOR <TERM'01> TERM' <TERM'02> 
+TERM' ,'num' :error
+TERM' ,'relop' :eeee
+TERM' ,'while' :error
+TERM' ,'{' :error
+TERM' ,'}' :error
+WHILE ,'$' :synch
+WHILE ,'(' :error
+WHILE ,')' :error
+WHILE ,'+' :error
+WHILE ,'-' :error
+WHILE ,';' :error
+WHILE ,'addop' :error
+WHILE ,'assign' :error
+WHILE ,'else' :error
+WHILE ,'float' :error
+WHILE ,'id' :error
+WHILE ,'if' :error
+WHILE ,'int' :error
+WHILE ,'mulop' :error
+WHILE ,'num' :error
+WHILE ,'relop' :error
+WHILE ,'while' :'while' <WHILE00> '(' <WHILE01> EXPRESSION <WHILE02> ')' <WHILE03> '{' <WHILE04> STATEMENT <WHILE05> '}' <WHILE06> 
+WHILE ,'{' :error
+WHILE ,'}' :synch
+<ASSIGNMENT00>
+STATEMENT ASSIGNMENT 'id' 
+'assign'
 ----------
-<DECLARATION00>
-DECLARATION PRIMITIVE_TYPE 'int' 'id'
-
+'id' +++++++++++++++
++++++++++++++++
+<ASSIGNMENT01>
+STATEMENT ASSIGNMENT 'id' 'assign' 
+EXPRESSION
 ----------
-<DECLARATION01>
-DECLARATION PRIMITIVE_TYPE 'int' 'id' ';'
-
+'assign' +++++++++++++++
++++++++++++++++
+<FACTOR10>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM FACTOR 'id' 
+<TERM00>
 ----------
-<DECLARATION02>
-DECLARATION PRIMITIVE_TYPE 'int' 'id' ';' '$'
-
+FACTOR +++++++++++++++
+bipush mostaf
++++++++++++++++
+<TERM00>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM FACTOR 
+TERM'
+----------
+bipush mostaf aa00
+FACTOR +++++++++++++++
+bipush mostaf
++++++++++++++++
+<TERM01>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM FACTOR TERM' 
+<SIMPLE_EXPRESSION10>
+----------
+TERM +++++++++++++++
+bipush mostaf
++++++++++++++++
+<SIMPLE_EXPRESSION10>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM 
+SIMPLE_EXPRESSION'
+----------
+bipush mostaf aa00
+TERM +++++++++++++++
+bipush mostaf
++++++++++++++++
+<SIMPLE_EXPRESSION'00>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' 
+TERM
+----------
+'addop' +++++++++++++++
++++++++++++++++
+<FACTOR10>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR 'id' 
+<TERM00>
+----------
+FACTOR +++++++++++++++
+bipush asdf
++++++++++++++++
+<TERM00>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR 
+TERM'
+----------
+bipush asdf aa00
+FACTOR +++++++++++++++
+bipush asdf
++++++++++++++++
+<TERM'00>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR TERM' 'mulop' 
+FACTOR
+----------
+'mulop' +++++++++++++++
++++++++++++++++
+<FACTOR10>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR TERM' 'mulop' FACTOR 'id' 
+<TERM'01>
+----------
+FACTOR +++++++++++++++
+bipush mos
++++++++++++++++
+<TERM'01>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR TERM' 'mulop' FACTOR 
+TERM'
+----------
+FACTOR
+'mulop'
+TERM'
+bipush asdf bb
+bipush mos aa
+bipush asdf ss
+bipush mos ss
+FACTOR +++++++++++++++
+bipush mos
++++++++++++++++
+<TERM'02>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR TERM' 'mulop' FACTOR TERM' 
+<TERM01>
+----------
+TERM' +++++++++++++++
+bipush asdf
+bipush mos
+imul
++++++++++++++++
+<TERM01>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR TERM' 
+<SIMPLE_EXPRESSION'01>
+----------
+TERM +++++++++++++++
+bipush asdf
+bipush mos
+imul
++++++++++++++++
+<SIMPLE_EXPRESSION'01>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM 
+SIMPLE_EXPRESSION'
+----------
+TERM
+'addop'
+SIMPLE_EXPRESSION'
+bipush mostaf bb
+bipush asdf aa
+bipush mos aa
+imul aa
+bipush mostaf ss
+bipush asdf ss
+bipush mos ss
+imul ss
+TERM +++++++++++++++
+bipush asdf
+bipush mos
+imul
++++++++++++++++
+<SIMPLE_EXPRESSION'02>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM SIMPLE_EXPRESSION' 
+<SIMPLE_EXPRESSION11>
+----------
+SIMPLE_EXPRESSION' +++++++++++++++
+bipush mostaf
+bipush asdf
+bipush mos
+imul
+iadd
++++++++++++++++
+<SIMPLE_EXPRESSION11>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 
+<EXPRESSION00>
+----------
+SIMPLE_EXPRESSION +++++++++++++++
+bipush mostaf
+bipush asdf
+bipush mos
+imul
+iadd
++++++++++++++++
+<EXPRESSION00>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION 
+EXPRESSION0
+----------
+bipush mostaf aa00
+bipush asdf aa00
+bipush mos aa00
+imul aa00
+iadd aa00
+SIMPLE_EXPRESSION +++++++++++++++
+bipush mostaf
+bipush asdf
+bipush mos
+imul
+iadd
++++++++++++++++
+<EXPRESSION01>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION EXPRESSION0 
+<ASSIGNMENT02>
+----------
+EXPRESSION +++++++++++++++
+bipush mostaf
+bipush asdf
+bipush mos
+imul
+iadd
++++++++++++++++
+<ASSIGNMENT02>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION 
+';'
+----------
+EXPRESSION +++++++++++++++
+bipush mostaf
+bipush asdf
+bipush mos
+imul
+iadd
++++++++++++++++
+<ASSIGNMENT03>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION ';' 
+<STATEMENT00>
 ----------

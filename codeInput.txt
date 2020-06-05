@@ -1,1 +1,1 @@
-int aa ; 
+ahemd = mostaf + asdf * mos ;
