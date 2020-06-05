@@ -12,17 +12,29 @@ SIMPLE_EXPRESSION to TERM <SIMPLE_EXPRESSION10> SIMPLE_EXPRESSION' <SIMPLE_EXPRE
 
 TERM to FACTOR <TERM00> TERM' <TERM01> 
 
-FACTOR to 'id' <FACTOR10> 
+FACTOR to 'num' <FACTOR20> 
 
-match 'id'
+match 'num'
+
+TERM' to eeee
+
+SIMPLE_EXPRESSION' to 'addop' <SIMPLE_EXPRESSION'00> TERM <SIMPLE_EXPRESSION'01> SIMPLE_EXPRESSION' <SIMPLE_EXPRESSION'02> 
+
+match 'addop'
+
+TERM to FACTOR <TERM00> TERM' <TERM01> 
+
+FACTOR to 'num' <FACTOR20> 
+
+match 'num'
 
 TERM' to 'mulop' <TERM'00> FACTOR <TERM'01> TERM' <TERM'02> 
 
 match 'mulop'
 
-FACTOR to 'id' <FACTOR10> 
+FACTOR to 'num' <FACTOR20> 
 
-match 'id'
+match 'num'
 
 TERM' to eeee
 

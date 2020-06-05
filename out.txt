@@ -484,35 +484,39 @@ EXPRESSION
 ----------
 'assign' +++++++++++++++
 +++++++++++++++
-<FACTOR10>
-STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM FACTOR 'id' 
+<FACTOR20>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM FACTOR 'num' 
 <TERM00>
 ----------
 FACTOR +++++++++++++++
-bipush mostaf
+0: bfpush 5.5
 +++++++++++++++
 <TERM00>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM FACTOR 
 TERM'
 ----------
-bipush mostaf aa00
+---------++-------++--
+<TERM00> 'float' 5.5FACTOR
+---------++----------++-
 FACTOR +++++++++++++++
-bipush mostaf
+0: bfpush 5.5
 +++++++++++++++
 <TERM01>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM FACTOR TERM' 
 <SIMPLE_EXPRESSION10>
 ----------
 TERM +++++++++++++++
-bipush mostaf
+0: bfpush 5.5
 +++++++++++++++
 <SIMPLE_EXPRESSION10>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM 
 SIMPLE_EXPRESSION'
 ----------
-bipush mostaf aa00
+---------++-------++--
+<SIMPLE_EXPRESSION10> 'float' 5.5TERM
+---------++----------++-
 TERM +++++++++++++++
-bipush mostaf
+0: bfpush 5.5
 +++++++++++++++
 <SIMPLE_EXPRESSION'00>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' 
@@ -520,20 +524,22 @@ TERM
 ----------
 'addop' +++++++++++++++
 +++++++++++++++
-<FACTOR10>
-STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR 'id' 
+<FACTOR20>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR 'num' 
 <TERM00>
 ----------
 FACTOR +++++++++++++++
-bipush asdf
+2: bfpush 6.5
 +++++++++++++++
 <TERM00>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR 
 TERM'
 ----------
-bipush asdf aa00
+---------++-------++--
+<TERM00> 'float' 6.5FACTOR
+---------++----------++-
 FACTOR +++++++++++++++
-bipush asdf
+2: bfpush 6.5
 +++++++++++++++
 <TERM'00>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR TERM' 'mulop' 
@@ -541,12 +547,12 @@ FACTOR
 ----------
 'mulop' +++++++++++++++
 +++++++++++++++
-<FACTOR10>
-STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR TERM' 'mulop' FACTOR 'id' 
+<FACTOR20>
+STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR TERM' 'mulop' FACTOR 'num' 
 <TERM'01>
 ----------
 FACTOR +++++++++++++++
-bipush mos
+4: bfpush 7.1
 +++++++++++++++
 <TERM'01>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR TERM' 'mulop' FACTOR 
@@ -555,30 +561,31 @@ TERM'
 FACTOR
 'mulop'
 TERM'
-bipush asdf bb
-bipush mos aa
-bipush asdf ss
-bipush mos ss
+**************************
+'float' 'float' 
+FACTOR TERM' 'mulop'
+7.1 6.5 /
+***********************++++
 FACTOR +++++++++++++++
-bipush mos
+4: bfpush 7.1
 +++++++++++++++
 <TERM'02>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR TERM' 'mulop' FACTOR TERM' 
 <TERM01>
 ----------
 TERM' +++++++++++++++
-bipush asdf
-bipush mos
-imul
+2: bfpush 6.5
+4: bfpush 7.1
+fdiv
 +++++++++++++++
 <TERM01>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM FACTOR TERM' 
 <SIMPLE_EXPRESSION'01>
 ----------
 TERM +++++++++++++++
-bipush asdf
-bipush mos
-imul
+2: bfpush 6.5
+4: bfpush 7.1
+fdiv
 +++++++++++++++
 <SIMPLE_EXPRESSION'01>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM 
@@ -587,80 +594,96 @@ SIMPLE_EXPRESSION'
 TERM
 'addop'
 SIMPLE_EXPRESSION'
-bipush mostaf bb
-bipush asdf aa
-bipush mos aa
-imul aa
-bipush mostaf ss
-bipush asdf ss
-bipush mos ss
-imul ss
+**************************
+'float' 'float' 
+TERM SIMPLE_EXPRESSION' 'addop'
+non 5.5 -
+***********************++++
 TERM +++++++++++++++
-bipush asdf
-bipush mos
-imul
+2: bfpush 6.5
+4: bfpush 7.1
+fdiv
 +++++++++++++++
 <SIMPLE_EXPRESSION'02>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 'addop' TERM SIMPLE_EXPRESSION' 
 <SIMPLE_EXPRESSION11>
 ----------
 SIMPLE_EXPRESSION' +++++++++++++++
-bipush mostaf
-bipush asdf
-bipush mos
-imul
-iadd
+0: bfpush 5.5
+2: bfpush 6.5
+4: bfpush 7.1
+fdiv
+fsub
 +++++++++++++++
 <SIMPLE_EXPRESSION11>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION TERM SIMPLE_EXPRESSION' 
 <EXPRESSION00>
 ----------
 SIMPLE_EXPRESSION +++++++++++++++
-bipush mostaf
-bipush asdf
-bipush mos
-imul
-iadd
+0: bfpush 5.5
+2: bfpush 6.5
+4: bfpush 7.1
+fdiv
+fsub
 +++++++++++++++
 <EXPRESSION00>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION 
 EXPRESSION0
 ----------
-bipush mostaf aa00
-bipush asdf aa00
-bipush mos aa00
-imul aa00
-iadd aa00
+---------++-------++--
+<EXPRESSION00> 'float' nonSIMPLE_EXPRESSION
+---------++----------++-
 SIMPLE_EXPRESSION +++++++++++++++
-bipush mostaf
-bipush asdf
-bipush mos
-imul
-iadd
+0: bfpush 5.5
+2: bfpush 6.5
+4: bfpush 7.1
+fdiv
+fsub
 +++++++++++++++
 <EXPRESSION01>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION SIMPLE_EXPRESSION EXPRESSION0 
 <ASSIGNMENT02>
 ----------
 EXPRESSION +++++++++++++++
-bipush mostaf
-bipush asdf
-bipush mos
-imul
-iadd
+0: bfpush 5.5
+2: bfpush 6.5
+4: bfpush 7.1
+fdiv
+fsub
 +++++++++++++++
 <ASSIGNMENT02>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION 
 ';'
 ----------
 EXPRESSION +++++++++++++++
-bipush mostaf
-bipush asdf
-bipush mos
-imul
-iadd
+0: bfpush 5.5
+2: bfpush 6.5
+4: bfpush 7.1
+fdiv
+fsub
 +++++++++++++++
 <ASSIGNMENT03>
 STATEMENT ASSIGNMENT 'id' 'assign' EXPRESSION ';' 
 <STATEMENT00>
 ----------
+ASSIGNMENT +++++++++++++++
+0: bfpush 5.5
+2: bfpush 6.5
+4: bfpush 7.1
+fdiv
+fsub
+fload num
++++++++++++++++
+<STATEMENT00>
+STATEMENT ASSIGNMENT 
+'$'
+----------
+finshed........
+STATEMENT +++++++++++++++
+0: bfpush 5.5
+2: bfpush 6.5
+4: bfpush 7.1
+fdiv
+fsub
+fload num
++++++++++++++++

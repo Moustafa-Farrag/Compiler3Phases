@@ -1,8 +1,8 @@
 id : ahemd
 assign : =
-id : mostaf
-addop : +
-id : asdf
-mulop : *
-id : mos
+num : 5.5
+addop : -
+num : 6.5
+mulop : /
+num : 7.1
 ; : ;
