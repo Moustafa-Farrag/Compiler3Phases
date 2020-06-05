@@ -236,10 +236,10 @@ void TableBuilder::lastInput(string firstNon)
         }
 
        // cout << finals[0].name << " " << finals[0].type << " "  << finals[0].value ; 
-       for ( int j = 0 ; j < finals[0].code.size() ; j++ ){
+      for ( int j = 0 ; j < finals[0].code.size() ; j++ ){
            cout << "ggggggggggggg" << endl ; 
            cout << finals[0].code[j] << endl ; 
-       }
+       } 
 
         if (s.empty() && i == inputWords.size())
         {

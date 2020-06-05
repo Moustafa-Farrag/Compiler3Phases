@@ -19,7 +19,7 @@ class ActionMaker {
         void factor(vector <attribute>& finalStack); 
 
     public:
-        void make(string action,vector<attribute>& finalStack, string lex ,  stack<attribute> s);
+        void make(string action,vector<attribute>& finalStack, string lex ,  stack<attribute>& s);
         ActionMaker();
 };
 

@@ -1,1 +1,2 @@
-mostafa * ahemd
+int x;
+x = 5;

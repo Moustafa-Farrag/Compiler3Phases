@@ -9,7 +9,7 @@ ActionMaker::ActionMaker(){
     varCounter=1;
 }
 
-void ActionMaker::make(string action, vector<attribute>& finalStack, string lex , stack<attribute> s ) {
+void ActionMaker::make(string action, vector<attribute>& finalStack, string lex , stack<attribute>& s ) {
 
     /*
         PRIMITIVE_TYPE to PRIMITIVE_TYPE  'id'  ';' 
@@ -25,14 +25,14 @@ void ActionMaker::make(string action, vector<attribute>& finalStack, string lex 
         handleDeclaration(finalStack,lex ) ;
     else if (action == "<FACTOR10>" || action == "<FACTOR20>" ) {
         factor(finalStack) ;
-    }else if (action == "<TERM00>" ) {
+    }else if (action == "<TERM00>" ||  action == "<SIMPLE_EXPRESSION10>"  ) {
        attribute aa = finalStack.back() ; 
-         for ( int i = 0 ; i < aa.code.size() ; i++) {
+        for ( int i = 0 ; i < aa.code.size() ; i++) {
             cout << aa.code[i] << " aa00"<< endl ; 
             s.top().code.push_back(aa.code[i]);
         }
 
-    }else if (action == "<TERM'01>" ) {
+    }else if (action == "<TERM'01>" || action == "<SIMPLE_EXPRESSION'01>"  ) {
         attribute aa = finalStack.back() ; 
         finalStack.pop_back();
         cout << aa.name << endl ; 
@@ -45,31 +45,39 @@ void ActionMaker::make(string action, vector<attribute>& finalStack, string lex 
         finalStack.push_back(bb);
         finalStack.push_back(cc);
         finalStack.push_back(aa);
+
+        for ( int i = 0 ; i < bb.code.size() ; i++) {
+            cout << bb.code[i] << " bb"<< endl ; 
+            s.top().code.push_back(bb.code[i]);
+        }
         for ( int i = 0 ; i < aa.code.size() ; i++) {
 
             cout << aa.code[i] << " aa"<< endl ; 
             s.top().code.push_back(aa.code[i]);
-        }
-        for ( int i = 0 ; i < bb.code.size() ; i++) {
-            cout << bb.code[i] << " bb"<< endl ; 
-            s.top().code.push_back(bb.code[i]);
         }
        // s.top().code.insert(s.top().code.end(), aa.code.begin(), aa.code.end());
         // s.top().code.insert(s.top().code.end(), bb.code.begin(), bb.code.end());
         for ( int i = 0 ; i <  s.top().code.size() ; i++) {
             cout << s.top().code[i] << " ss" << endl ; 
         }
-        s.top().code.push_back("imul") ; 
-    }else if ( action == "<TERM'02>"){
+       if ( action ==  "<TERM'01>" ) {
+         s.top().code.push_back("imul") ;
+       } else {
+         s.top().code.push_back("iadd") ;
+       }
+
+    }else if ( action == "<TERM'02>" || action == "<SIMPLE_EXPRESSION'02>"){
+        attribute aa = finalStack.back();
         finalStack.pop_back();
         finalStack.pop_back();
         finalStack.pop_back();
-    } else if ( action == "<TERM01>" ) {
+        finalStack.back().code = aa.code ; 
+    } else if ( action == "<TERM01>" || action == "<SIMPLE_EXPRESSION11>") {
         attribute temp = finalStack.back(); 
         finalStack.pop_back();
         finalStack.pop_back();
         finalStack.back().code = temp.code ; 
-    }
+    } 
 
 }
 

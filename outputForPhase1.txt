@@ -1,3 +1,7 @@
-id : mostafa
-mulop : *
-id : ahemd
+int : int
+id : x
+; : ;
+id : x
+assign : =
+num : 5
+; : ;
