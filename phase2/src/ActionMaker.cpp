@@ -131,13 +131,17 @@ void ActionMaker::factor(vector<attribute>& finalStack) {
     finalStack.pop_back();  
 
     if ( numOrID.name == "\'num\'" ){
-        string code1 = "bipush " + numOrID.value ; 
+        string ad= to_string(addressCounter)+": ";
+        addressCounter+=2;
+        string code1 = ad +"bipush " + numOrID.value ;
         finalStack.back().code.push_back(code1) ;
         finalStack.back().value = numOrID.value ; 
     }
     else {
-        //serch in table 
-        string code1 = "bipush " + numOrID.value ; // will change 
+        //serch in table
+        string ad= to_string(addressCounter)+": ";
+        addressCounter+=2;
+        string code1 = ad+"bipush " + numOrID.value ; // will change
         finalStack.back().code.push_back(code1) ;
         finalStack.back().value = numOrID.value ; 
     }

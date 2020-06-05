@@ -138,6 +138,7 @@ void TableBuilder::lastInput(string firstNon)
     ia.name = firstNon; 
     s.push(ia);
     inputWords.push_back("\'$\'");
+    lexs.push_back("\'$\'");
     int i = 0;
     if (!errorMes.size())
     {
