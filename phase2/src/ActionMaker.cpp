@@ -139,9 +139,8 @@ void ActionMaker::factor(vector<attribute>& finalStack) {
     }
     else {
         //serch in table
-        string ad= to_string(addressCounter)+": ";
-        addressCounter+=2;
-        string code1 = ad+"bipush " + numOrID.value ; // will change
+        string ad= to_string(addressCounter++)+": ";
+        string code1 = ad+"iload_" + to_string(variables[numOrID.value].first) ; // will change
         finalStack.back().code.push_back(code1) ;
         finalStack.back().value = numOrID.value ; 
     }
