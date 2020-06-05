@@ -33,7 +33,7 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
     {
         factor(finalStack);
     }
-    else if (action == "<TERM00>" || action == "<SIMPLE_EXPRESSION10>" || action == "<EXPRESSION00>")
+    else if (action == "STATEMENT_LIST00" || action == "<TERM00>" || action == "<SIMPLE_EXPRESSION10>" || action == "<EXPRESSION00>")
     {
         attribute aa = finalStack.back();
         for (int i = 0; i < aa.code.size(); i++)
@@ -49,7 +49,7 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         s.top().type = aa.type;
         s.top().value = aa.value;
     }
-    else if (action == "<TERM'01>" || action == "<SIMPLE_EXPRESSION'01>")
+    else if (action == "<STATEMENT_LIST01>" || action == "<TERM'01>" || action == "<SIMPLE_EXPRESSION'01>")
     {
         // 'mulop' <TERM'00> FACTOR <TERM'01> TERM' <TERM'02>
 
@@ -138,7 +138,7 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         }
         /* code */
     }
-    else if (action == "<STATEMENT00>" || action == "<STATEMENT10>" || action == "<STATEMENT20>" || action == "<STATEMENT30>")
+    else if (action == "<METHOD_BODY00>" || action == "<STATEMENT00>" || action == "<STATEMENT10>" || action == "<STATEMENT20>" || action == "<STATEMENT30>")
     {
         cout << "finshed........" << endl;
         attribute Assigin = finalStack.back();
