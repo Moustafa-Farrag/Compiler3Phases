@@ -104,13 +104,16 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         finalStack.back().type = aa.type;
         finalStack.back().value = aa.value;
     }
-    else if (action == "<TERM01>" || action == "<SIMPLE_EXPRESSION11>" || action == "<EXPRESSION01>" || action == "<EXPRESSION001>")
+    else if (action == "<TERM01>" || action == "<SIMPLE_EXPRESSION11>" || action == "<EXPRESSION01>")
     {
         attribute temp = finalStack.back();
         finalStack.pop_back();
+        //attribute relop = finalStack.back();
+        //string ifInst=addIfByteCode(relop);
         finalStack.pop_back();
         for(auto i : temp.code)
             finalStack.back().code.push_back(i);
+        //finalStack.back().code.push_back(ifInst);
         finalStack.back().type = temp.type;
         finalStack.back().value = temp.value;
     }
@@ -131,7 +134,7 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
             finalStack.back().code.push_back(ad+"fload num");
         } else if ( Ex.type == "\'float\'" ) {
             string ad = to_string(addressCounter++) + ": ";
-            finalStack.back().code.push_back("ad+iload num");
+            finalStack.back().code.push_back(ad+"iload num");
         }
         /* code */
     }
@@ -149,10 +152,10 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         finalStack.pop_back() ;
         finalStack.pop_back() ;
         finalStack.back().trueList.push_back(addressCounter)  ;
-        string ad= to_string(addressCounter)+": ";
-        addressCounter+=3;
+//        string ad= to_string(addressCounter)+": ";
+//        addressCounter+=3;
         finalStack.back().code=temp.code;
-        finalStack.back().code.push_back(ad +"if_icmplt");
+//        finalStack.back().code.push_back(ad +"if_icmplt");
     }else if (action == "<IF06>" ){
         finalStack.pop_back() ;
         attribute st=finalStack.back();
@@ -163,6 +166,17 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         finalStack.back().code.push_back(ifIns);
         for(auto i:st.code)
             finalStack.back().code.push_back(i);
+    }else if(action == "<EXPRESSION001>"){
+        attribute temp = finalStack.back();
+        finalStack.pop_back();
+        attribute relop = finalStack.back();
+        string ifInst=addIfByteCode(relop);
+        finalStack.pop_back();
+        for(auto i : temp.code)
+            finalStack.back().code.push_back(i);
+        finalStack.back().code.push_back(ifInst);
+        finalStack.back().type = temp.type;
+        finalStack.back().value = temp.value;
     }
 }
 
@@ -278,4 +292,23 @@ string ActionMaker::codeOFmulandAdd(string aa, string bb, string ccValue , strin
     }
 
     return "";
+}
+
+string ActionMaker::addIfByteCode(attribute relop) {
+    string result=to_string(addressCounter)+": ";
+    string value=relop.value;
+    if(value.compare("<")==0)
+        result+="if_icmpge";
+    else if(value.compare(">")==0)
+        result+="if_icmple";
+    else if(value.compare(">=")==0)
+        result+="if_icmplt";
+    else if(value.compare("<=")==0)
+        result+="if_icmpgt";
+    else if(value.compare("==")==0)
+        result+="if_icmpne";
+    else if(value.compare("!=")==0)
+        result+="if_icmpeq";
+    addressCounter+=3;
+    return result;
 }

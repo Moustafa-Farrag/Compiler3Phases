@@ -18,6 +18,7 @@ class ActionMaker {
         void handleDeclaration(vector<attribute>& finalStack, string lex );
         void factor(vector <attribute>& finalStack); 
         string codeOFmulandAdd(string aa, string  bb, string cc1 , string cc2 , string action);
+        string addIfByteCode(attribute relop);
 
     public:
         void make(string action,vector<attribute>& finalStack, string lex ,  stack<attribute>& s);
