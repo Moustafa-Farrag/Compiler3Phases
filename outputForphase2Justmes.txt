@@ -1,12 +1,18 @@
-DECLARATION to PRIMITIVE_TYPE <DECLARATION00> 'id' <DECLARATION01> ';' <DECLARATION02> 
+TERM to FACTOR <TERM00> TERM' <TERM01> 
 
-PRIMITIVE_TYPE to 'int' <PRIMITIVE_TYPE10> 
-
-match 'int'
+FACTOR to 'id' <FACTOR10> 
 
 match 'id'
 
-match ';'
+TERM' to 'mulop' <TERM'00> FACTOR <TERM'01> TERM' <TERM'02> 
+
+match 'mulop'
+
+FACTOR to 'id' <FACTOR10> 
+
+match 'id'
+
+TERM' to eeee
 
 match '$'
 

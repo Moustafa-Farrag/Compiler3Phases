@@ -15,7 +15,7 @@ public:
     string name ;    
     string value ; 
     string type ; 
-    string code ;
+    vector <string> code ;
     string inter ; 
     vector <int> trueList ; 
     vector <int> flaseList; 
