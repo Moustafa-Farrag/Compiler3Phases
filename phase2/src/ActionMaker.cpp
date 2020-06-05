@@ -131,10 +131,10 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         finalStack.back().code = Ex.code;
         if ( Ex.type == "\'float\'" ){
             string ad = to_string(addressCounter++) + ": ";
-            finalStack.back().code.push_back(ad+"fload num");
+            finalStack.back().code.push_back(ad+"fstore"+"    "+"zeny");
         } else if ( Ex.type == "\'float\'" ) {
             string ad = to_string(addressCounter++) + ": ";
-            finalStack.back().code.push_back(ad+"iload num");
+            finalStack.back().code.push_back(ad+"istore"+"    "+"zeny");
         }
         /* code */
     }
@@ -160,12 +160,15 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         finalStack.pop_back() ;
         attribute st=finalStack.back();
         finalStack.pop_back() ;
+        string goTo=to_string(addressCounter)+": "+"goto";
+        addressCounter+=3;
         finalStack.back().flaseList.push_back(addressCounter)  ;
         string ifIns =finalStack.back().code.back()+"   "+to_string(addressCounter);
         finalStack.back().code.pop_back();
         finalStack.back().code.push_back(ifIns);
         for(auto i:st.code)
             finalStack.back().code.push_back(i);
+        finalStack.back().code.push_back(goTo);
     }else if(action == "<EXPRESSION001>"){
         attribute temp = finalStack.back();
         finalStack.pop_back();
@@ -177,6 +180,17 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         finalStack.back().code.push_back(ifInst);
         finalStack.back().type = temp.type;
         finalStack.back().value = temp.value;
+    }else if(action =="<IF010>"){
+        finalStack.pop_back();
+        attribute insideElse =finalStack.back();
+        finalStack.pop_back();
+        finalStack.pop_back();
+        finalStack.pop_back();
+        string gooto=finalStack.back().code.back()+"    "+to_string(addressCounter);
+        finalStack.back().code.pop_back();
+        finalStack.back().code.push_back(gooto);
+        for(auto i:insideElse.code)
+            finalStack.back().code.push_back(i);
     }
 }
 
