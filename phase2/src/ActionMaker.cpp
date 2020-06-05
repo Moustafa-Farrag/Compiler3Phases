@@ -33,7 +33,7 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
     {
         factor(finalStack);
     }
-    else if (action == "STATEMENT_LIST00" || action == "<TERM00>" || action == "<SIMPLE_EXPRESSION10>" || action == "<EXPRESSION00>")
+    else if (action == "<STATEMENT_LIST00>" || action == "<STATEMENT_LIST'00>" || action == "<TERM00>" || action == "<SIMPLE_EXPRESSION10>" || action == "<EXPRESSION00>")
     {
         attribute aa = finalStack.back();
         for (int i = 0; i < aa.code.size(); i++)
@@ -49,7 +49,7 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         s.top().type = aa.type;
         s.top().value = aa.value;
     }
-    else if (action == "<STATEMENT_LIST01>" || action == "<TERM'01>" || action == "<SIMPLE_EXPRESSION'01>")
+    else if (action == "<TERM'01>" || action == "<SIMPLE_EXPRESSION'01>")
     {
         // 'mulop' <TERM'00> FACTOR <TERM'01> TERM' <TERM'02>
 
@@ -104,7 +104,7 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         finalStack.back().type = aa.type;
         finalStack.back().value = aa.value;
     }
-    else if (action == "<TERM01>" || action == "<SIMPLE_EXPRESSION11>" || action == "<EXPRESSION01>")
+    else if (action == "<STATEMENT_LIST01>" || action == "<STATEMENT_LIST'01>"|| action == "<TERM01>" || action == "<SIMPLE_EXPRESSION11>" || action == "<EXPRESSION01>")
     {
         attribute temp = finalStack.back();
         finalStack.pop_back();
@@ -129,12 +129,26 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         attribute Id = finalStack.back();
         finalStack.pop_back();
         finalStack.back().code = Ex.code;
-        if ( Ex.type == "\'float\'" ){
+        string pos ; 
+        string typeForId ; 
+        if (variables.find(Id.value) == variables.end()) {
+            cout << "error must be declare first" << endl ;
+            pos = "error" ;  
+            cout << Id.value << ":;;;;;;;;;;;;;;;;;;" << endl ; 
+        }else {
+            pos = to_string(variables[Id.value].first);
+            typeForId = variables[Id.value].second ; 
+            cout << pos << " " << typeForId <<  ":;;;;;;;;;;;;;;;;;;" << endl ; 
+        }
+
+        if ( Ex.type == "\'float\'" && typeForId == "float"){
             string ad = to_string(addressCounter++) + ": ";
-            finalStack.back().code.push_back(ad+"fstore"+"    "+"zeny");
-        } else if ( Ex.type == "\'float\'" ) {
+            finalStack.back().code.push_back(ad+"fstore"+"    "+ pos);
+        } else if ( Ex.type == "\'int\'" && typeForId == "int") {
             string ad = to_string(addressCounter++) + ": ";
-            finalStack.back().code.push_back(ad+"istore"+"    "+"zeny");
+            finalStack.back().code.push_back(ad+"istore"+"    "+ pos);
+        }else {
+            cout << "NOT MATCHED TYPE" << endl ; 
         }
         /* code */
     }
