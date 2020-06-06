@@ -1,5 +1,5 @@
 int : int
-id : ahmed
+id : a
 ; : ;
 float : float
 id : a
@@ -8,15 +8,3 @@ id : a
 assign : =
 num : 5.0
 ; : ;
-while : while
-( : (
-id : a
-relop : >
-num : 5.5
-) : )
-{ : {
-id : ahmed
-assign : =
-num : 20
-; : ;
-} : }

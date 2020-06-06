@@ -9,6 +9,7 @@ ActionMaker::ActionMaker()
     addressCounter = 0;
     varCounter = 1;
     isError = false;
+    mutibleDef = "" ; 
 }
 
 void ActionMaker::make(string action, vector<attribute> &finalStack, string lex, stack<attribute> &s)
@@ -317,8 +318,13 @@ void ActionMaker::handleDeclaration(vector<attribute> &finalStack, string lex)
     finalStack.back().type = pt.type;
     finalStack.back().value = id.value;
     // -- - --- - -- -
-    pair<int, string> aa = {varCounter++, pt.type};
-    variables[id.value] = aa;
+    if ( variables.find(id.value) == variables.end() ) {
+        pair<int, string> aa = {varCounter++, pt.type};
+        variables[id.value] = aa;
+    }else {
+        isError = true ; 
+        mutibleDef = id.value ;       
+    }
     // variables
 }
 

@@ -25,6 +25,7 @@ class ActionMaker {
     public:
         void make(string action,vector<attribute>& finalStack, string lex ,  stack<attribute>& s);
         bool isError ;
+        string mutibleDef ; 
         ActionMaker();
 };
 

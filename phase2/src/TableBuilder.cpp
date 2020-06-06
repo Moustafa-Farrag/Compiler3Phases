@@ -259,6 +259,8 @@ void TableBuilder::lastInput(string firstNon)
                 ofstream MyFile3("byteCode.txt");
                 if (actionMaker.isError){ 
                     MyFile3 << "THERE IS ERRORS IN THIS CODE"  << endl; 
+                    if ( actionMaker.mutibleDef.size() > 0 ) 
+                          MyFile3 << "THERE IS MULTI DEF IN " + actionMaker.mutibleDef  << endl; 
                 }else {
                     MyFile3 << "THIS CODE WORKING GOOD"  << endl; 
                 }

@@ -1,10 +1,5 @@
-THIS CODE WORKING GOOD
-0: bfpush 5.0
-2: fstore    2
-3: fload_2
-4: bfpush 5.5
-6: if_icmple  15
-9: bipush 20
-11: istore    1
-12: goto    3
-15: return
+THERE IS ERRORS IN THIS CODE
+THERE IS MULTI DEF IN a
+0: bfpush    5.0
+NOT MATCHED TYPE
+2: return

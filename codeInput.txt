@@ -1,7 +1,3 @@
-int ahmed ;
+int a ;
 float a ;
 a = 5.0 ;
-while ( a > 5.5 )
-{
-    ahmed = 20 ;
-}
