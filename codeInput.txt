@@ -1,7 +1,6 @@
-int ahmed ;
-int a ; 
-a = 5 ;
-while ( )
-{
-}
-
+int a ;
+int b ; 
+int c ; 
+a = 6 + 5 ; 
+b = a * 3 ; 
+c = a * bb + 5 ;

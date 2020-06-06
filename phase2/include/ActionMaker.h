@@ -12,8 +12,7 @@ using namespace std;
 class ActionMaker {
     private:
         int addressCounter;
-        int varCounter;
-        bool isError ; 
+        int varCounter; 
         unordered_map<string,pair<int,string>> variables;
         void handlePT(vector <attribute>& finalStack);
         void handleDeclaration(vector<attribute>& finalStack, string lex );
@@ -24,6 +23,7 @@ class ActionMaker {
 
     public:
         void make(string action,vector<attribute>& finalStack, string lex ,  stack<attribute>& s);
+        bool isError ;
         ActionMaker();
 };
 

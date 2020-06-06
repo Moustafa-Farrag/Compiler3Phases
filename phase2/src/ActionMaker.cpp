@@ -145,7 +145,7 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         finalStack.back().code = Assigin.code;
         if (action == "<METHOD_BODY00>")
         {
-            finalStack.back().code.push_back(to_string(addressCounter) + ": retrun");
+            finalStack.back().code.push_back(to_string(addressCounter) + ": return");
         }
     }
     else if (action == "<IF04>")

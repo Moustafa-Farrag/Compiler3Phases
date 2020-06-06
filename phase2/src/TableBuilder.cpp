@@ -21,14 +21,15 @@ void TableBuilder::build()
         {
             t[{production.first, terminal}] = "error";
         }
-        int c1 = 0 ;
+        int c1 = 0;
         for (auto product : production.second)
         {
-            vector <string> spilted = tokenize(product);
-            string temp = "" ;  
-            for ( int j = 0 ; j < spilted.size() ; j++ ){
+            vector<string> spilted = tokenize(product);
+            string temp = "";
+            for (int j = 0; j < spilted.size(); j++)
+            {
 
-                temp += spilted[j] + " <"  + production.first + to_string(c1) +  to_string(j) + "> " ;   
+                temp += spilted[j] + " <" + production.first + to_string(c1) + to_string(j) + "> ";
             }
             for (auto terminal : this->terminals)
             {
@@ -56,7 +57,7 @@ void TableBuilder::build()
                     }
                 }
             }
-            c1++ ; 
+            c1++;
         }
     }
     this->table = t;
@@ -129,13 +130,13 @@ void TableBuilder::lastInput(string firstNon)
     }
 
     // ----------
-    vector <attribute> finals ; 
+    vector<attribute> finals;
     stack<attribute> s;
-    attribute a; 
-    a.name = "\'$\'" ; 
+    attribute a;
+    a.name = "\'$\'";
     s.push(a);
-    attribute ia; 
-    ia.name = firstNon; 
+    attribute ia;
+    ia.name = firstNon;
     s.push(ia);
     inputWords.push_back("\'$\'");
     lexs.push_back("\'$\'");
@@ -160,32 +161,35 @@ void TableBuilder::lastInput(string firstNon)
                 continue;
             }
 
-           if (stackP.name[0] == '<' && stackP.name.size() > 2 ){
-                cout << stackP.name << endl ; 
-                for ( int k = 0 ; k < finals.size() ; k++ ) {
-                    cout << finals[k].name << " " ;
+            if (stackP.name[0] == '<' && stackP.name.size() > 2)
+            {
+                cout << stackP.name << endl;
+                for (int k = 0; k < finals.size(); k++)
+                {
+                    cout << finals[k].name << " ";
                 }
-                cout << endl  << s.top().name << endl ; 
-                cout << "----------" << endl ;
-                
-               
-                actionMaker.make(stackP.name , finals , lexs[i] , s ) ; 
+                cout << endl
+                     << s.top().name << endl;
+                cout << "----------" << endl;
 
-                 cout <<  finals.back().name << " +++++++++++++++" << endl ;
-                // make 
-                cout << "TYPE >> " << finals.back().type << endl ;
-                cout << "VALUE >> " << finals.back().value << endl <<  "CODE:" << endl  ; 
-                for ( int j = 0 ; j < finals.back().code.size() ; j++ ){
-                    cout << finals.back().code[j] << endl ; 
-                } 
-                cout << "+++++++++++++++" << endl ;
-            
-                continue ;
+                actionMaker.make(stackP.name, finals, lexs[i], s);
 
-            } 
+                cout << finals.back().name << " +++++++++++++++" << endl;
+                // make
+                cout << "TYPE >> " << finals.back().type << endl;
+                cout << "VALUE >> " << finals.back().value << endl
+                     << "CODE:" << endl;
+                for (int j = 0; j < finals.back().code.size(); j++)
+                {
+                    cout << finals.back().code[j] << endl;
+                }
+                cout << "+++++++++++++++" << endl;
+
+                continue;
+            }
 
             finals.push_back(stackP);
-            
+
             if (!isTerminal(stackP.name))
             {
                 // may the string from table must spilt
@@ -196,11 +200,12 @@ void TableBuilder::lastInput(string firstNon)
                     vector<string> ss = tokenize(table[{stackP.name, inputWords[i]}]);
                     for (int j = ss.size() - 1; j >= 0; j--)
                     {
-                        if (ss[j] != " " && ss[j] != ""){
-                            attribute b ; 
-                            b.name = ss[j] ; 
+                        if (ss[j] != " " && ss[j] != "")
+                        {
+                            attribute b;
+                            b.name = ss[j];
                             s.push(b);
-                         }
+                        }
                     }
                 }
                 else
@@ -241,21 +246,28 @@ void TableBuilder::lastInput(string firstNon)
             }
 
             // they are similar
-            finals.back().value = lexs[i] ; 
+            finals.back().value = lexs[i];
             PrintingInOut(i, s, errorMes, inputWords, stackP);
             errorMes.push_back("match " + stackP.name + "\n");
             i++;
         }
 
-       // cout << finals[0].name << " " << finals[0].type << " "  << finals[0].value ; 
-     /* for ( int j = 0 ; j < finals[0].code.size() ; j++ ){
-           cout << "ggggggggggggg" << endl ; 
-           cout << finals[0].code[j] << endl ; 
-       } */
-
         if (s.empty() && i == inputWords.size())
         {
             errorMes.push_back("done\n");
+            
+                ofstream MyFile3("byteCode.txt");
+                if (actionMaker.isError){ 
+                    MyFile3 << "THERE IS ERRORS IN THIS CODE"  << endl; 
+                }else {
+                    MyFile3 << "THIS CODE WORKING GOOD"  << endl; 
+                }
+                for ( string cd : finals[0].code ){
+                     MyFile3 << cd << endl ;
+                }
+               
+                MyFile3.close();
+            
         }
         else
         {

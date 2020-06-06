@@ -1,0 +1,16 @@
+THERE IS ERRORS IN THIS CODE
+0: bipush 6
+2: bipush 5
+4: iadd
+5: istore    1
+6: iload_1
+7: bipush 3
+9: imul
+10: istore    2
+11: iload_1
+VAR MUST BE DECLARE FIRST
+12: CAN NOT DO OPERATION OT DIFFIRENT TYPE
+13: bipush 5
+15: CAN NOT DO OPERATION OT DIFFIRENT TYPE
+16: istore    3
+17: retrun
