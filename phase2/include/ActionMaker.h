@@ -19,6 +19,7 @@ class ActionMaker {
         void factor(vector <attribute>& finalStack); 
         string codeOFmulandAdd(string aa, string  bb, string cc1 , string cc2 , string action);
         string addIfByteCode(attribute relop);
+        string addIfByteCodeFloat(attribute relop);
         string address_get(string str);
 
     public:
