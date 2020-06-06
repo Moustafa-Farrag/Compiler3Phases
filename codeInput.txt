@@ -1,6 +1,7 @@
-int a ;
-int b ; 
-int c ; 
-a = 6 + 5 ; 
-b = a * 3 ; 
-c = a * bb + 5 ;
+int ahmed ;
+float a ;
+a = 5.0 ;
+while ( a > 5.5 )
+{
+    ahmed = 20 ;
+}
