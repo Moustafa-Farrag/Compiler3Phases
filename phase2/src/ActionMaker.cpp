@@ -8,20 +8,13 @@ ActionMaker::ActionMaker()
 {
     addressCounter = 0;
     varCounter = 1;
+    isError = false;
 }
 
 void ActionMaker::make(string action, vector<attribute> &finalStack, string lex, stack<attribute> &s)
 {
 
-    /*
-        PRIMITIVE_TYPE to PRIMITIVE_TYPE  'id'  ';' 
-        DECLARATION to 
-                PRIMITIVE_TYPE  'id'   <DECLARATION02> 
-        stack         <DECLARATION02>
-        final DECLARATION  
-        int aa ; 
-    */
-    if (action.compare("<PRIMITIVE_TYPE10>") == 0)
+    if (action == "<PRIMITIVE_TYPE10>" || action == "<PRIMITIVE_TYPE00>")
     {
         handlePT(finalStack);
     }
@@ -38,13 +31,8 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         attribute aa = finalStack.back();
         for (int i = 0; i < aa.code.size(); i++)
         {
-            // cout << aa.code[i] << " aa00" << endl;
             s.top().code.push_back(aa.code[i]);
         }
-
-        cout << "---------++-------++--" << endl ; 
-        cout << action << " " << aa.type << " " << aa.value << aa.name << endl ;
-        cout << "---------++----------++-" << endl ;
 
         s.top().type = aa.type;
         s.top().value = aa.value;
@@ -55,13 +43,13 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
 
         attribute aa = finalStack.back();
         finalStack.pop_back();
-        cout << aa.name << endl;
+
         attribute cc = finalStack.back();
         finalStack.pop_back();
-        cout << cc.name << endl;
+
         attribute bb = finalStack.back();
         finalStack.pop_back();
-        cout << bb.name << endl;
+
         finalStack.push_back(bb);
         finalStack.push_back(cc);
         finalStack.push_back(aa);
@@ -75,24 +63,10 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
             s.top().code.push_back(aa.code[i]);
         }
 
-      /*  for (int i = 0; i < s.top().code.size(); i++)
-        {
-            cout << s.top().code[i] << " ss" << endl;
-        }*/
-
-      /*  cout << "**************************" << endl;
-
-        cout << aa.type << " " << bb.type << " " << cc.type << endl;
-        cout << aa.name << " " << bb.name << " " << cc.name << endl;
-        cout << aa.value << " " << bb.value << " " << cc.value << endl;
-
-        cout << "***********************++++" << endl;
-        */
-        s.top().type = aa.type ; 
-        s.top().value = "non" ;
-        string ad = to_string(addressCounter++) + ": "+ codeOFmulandAdd(aa.type, bb.type, cc.value , cc.name , action);
+        s.top().type = aa.type;
+        s.top().value = "non";
+        string ad = to_string(addressCounter++) + ": " + codeOFmulandAdd(aa.type, bb.type, cc.value, cc.name, action);
         s.top().code.push_back(ad);
-
     }
     else if (action == "<TERM'02>" || action == "<SIMPLE_EXPRESSION'02>")
     {
@@ -104,14 +78,14 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         finalStack.back().type = aa.type;
         finalStack.back().value = aa.value;
     }
-    else if (action == "<STATEMENT_LIST01>" || action == "<STATEMENT_LIST'01>"|| action == "<TERM01>" || action == "<SIMPLE_EXPRESSION11>" || action == "<EXPRESSION01>")
+    else if (action == "<STATEMENT_LIST01>" || action == "<STATEMENT_LIST'01>" || action == "<TERM01>" || action == "<SIMPLE_EXPRESSION11>" || action == "<EXPRESSION01>" || action == "<SIMPLE_EXPRESSION02>")
     {
         attribute temp = finalStack.back();
         finalStack.pop_back();
         //attribute relop = finalStack.back();
         //string ifInst=addIfByteCode(relop);
         finalStack.pop_back();
-        for(auto i : temp.code)
+        for (auto i : temp.code)
             finalStack.back().code.push_back(i);
         //finalStack.back().code.push_back(ifInst);
         finalStack.back().type = temp.type;
@@ -129,26 +103,37 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         attribute Id = finalStack.back();
         finalStack.pop_back();
         finalStack.back().code = Ex.code;
-        string pos ; 
-        string typeForId ; 
-        if (variables.find(Id.value) == variables.end()) {
-            cout << "error must be declare first" << endl ;
-            pos = "error" ;  
-            cout << Id.value << ":;;;;;;;;;;;;;;;;;;" << endl ; 
-        }else {
+        string pos;
+        string typeForId;
+        if (variables.find(Id.value) == variables.end())
+        {
+            cout << "error must be declare first" << endl;
+            pos = "error";
+            typeForId = "error";
+            finalStack.back().code.push_back("VAR MUST BE DECLARE FIRST");
+            isError = true ; 
+            return;
+        }
+        else
+        {
             pos = to_string(variables[Id.value].first);
-            typeForId = variables[Id.value].second ; 
-            cout << pos << " " << typeForId <<  ":;;;;;;;;;;;;;;;;;;" << endl ; 
+            typeForId = variables[Id.value].second;
         }
 
-        if ( Ex.type == "\'float\'" && typeForId == "float"){
+        if (Ex.type == "float" && typeForId == "float")
+        {
             string ad = to_string(addressCounter++) + ": ";
-            finalStack.back().code.push_back(ad+"fstore"+"    "+ pos);
-        } else if ( Ex.type == "\'int\'" && typeForId == "int") {
+            finalStack.back().code.push_back(ad + "fstore" + "    " + pos);
+        }
+        else if (Ex.type == "int" && typeForId == "int")
+        {
             string ad = to_string(addressCounter++) + ": ";
-            finalStack.back().code.push_back(ad+"istore"+"    "+ pos);
-        }else {
-            cout << "NOT MATCHED TYPE" << endl ; 
+            finalStack.back().code.push_back(ad + "istore" + "    " + pos);
+        }
+        else
+        {
+            finalStack.back().code.push_back("NOT MATCHED TYPE");
+            isError = true;
         }
         /* code */
     }
@@ -158,53 +143,150 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         attribute Assigin = finalStack.back();
         finalStack.pop_back();
         finalStack.back().code = Assigin.code;
-    }else if (action == "<IF04>" ){
-        finalStack.pop_back() ;
-        finalStack.pop_back() ;
+        if (action == "<METHOD_BODY00>")
+        {
+            finalStack.back().code.push_back(to_string(addressCounter) + ": retrun");
+        }
+    }
+    else if (action == "<IF04>")
+    {
+        finalStack.pop_back();
+        finalStack.pop_back();
         attribute temp = finalStack.back();
-        finalStack.pop_back() ;
-        finalStack.pop_back() ;
-        finalStack.pop_back() ;
-        finalStack.back().trueList.push_back(addressCounter)  ;
-//        string ad= to_string(addressCounter)+": ";
-//        addressCounter+=3;
-        finalStack.back().code=temp.code;
-//        finalStack.back().code.push_back(ad +"if_icmplt");
-    }else if (action == "<IF06>" ){
-        finalStack.pop_back() ;
-        attribute st=finalStack.back();
-        finalStack.pop_back() ;
-        string goTo=to_string(addressCounter)+": "+"goto";
-        addressCounter+=3;
-        finalStack.back().flaseList.push_back(addressCounter)  ;
-        string ifIns =finalStack.back().code.back()+"   "+to_string(addressCounter);
+        finalStack.pop_back();
+        finalStack.pop_back();
+        finalStack.pop_back();
+        finalStack.back().trueList.push_back(addressCounter);
+        //        string ad= to_string(addressCounter)+": ";
+        //        addressCounter+=3;
+        finalStack.back().code = temp.code;
+        //        finalStack.back().code.push_back(ad +"if_icmplt");
+    }
+    else if (action == "<IF06>")
+    {
+        finalStack.pop_back();
+        attribute st = finalStack.back();
+        finalStack.pop_back();
+        string goTo = to_string(addressCounter) + ": " + "goto";
+        addressCounter += 3;
+        finalStack.back().flaseList.push_back(addressCounter);
+        string ifIns = finalStack.back().code.back() + "   " + to_string(addressCounter);
         finalStack.back().code.pop_back();
         finalStack.back().code.push_back(ifIns);
-        for(auto i:st.code)
+        for (auto i : st.code)
             finalStack.back().code.push_back(i);
         finalStack.back().code.push_back(goTo);
-    }else if(action == "<EXPRESSION001>"){
+    }
+    else if (action == "<EXPRESSION001>")
+    {
         attribute temp = finalStack.back();
         finalStack.pop_back();
         attribute relop = finalStack.back();
-        string ifInst=addIfByteCode(relop);
+        string ifInst = addIfByteCode(relop);
         finalStack.pop_back();
-        for(auto i : temp.code)
+        for (auto i : temp.code)
             finalStack.back().code.push_back(i);
         finalStack.back().code.push_back(ifInst);
         finalStack.back().type = temp.type;
         finalStack.back().value = temp.value;
-    }else if(action =="<IF010>"){
+    }
+    else if (action == "<IF010>")
+    {
         finalStack.pop_back();
-        attribute insideElse =finalStack.back();
+        attribute insideElse = finalStack.back();
         finalStack.pop_back();
         finalStack.pop_back();
         finalStack.pop_back();
-        string gooto=finalStack.back().code.back()+"    "+to_string(addressCounter);
+        string gooto = finalStack.back().code.back() + "    " + to_string(addressCounter);
         finalStack.back().code.pop_back();
         finalStack.back().code.push_back(gooto);
-        for(auto i:insideElse.code)
+        for (auto i : insideElse.code)
             finalStack.back().code.push_back(i);
+    }
+    else if (action == "<FACTOR02>")
+    {
+        // '(' <FACTOR00> EXPRESSION <FACTOR01> ')' <FACTOR02>
+        finalStack.pop_back();
+        attribute Ex = finalStack.back();
+        finalStack.pop_back();
+        finalStack.pop_back();
+        finalStack.back().type = Ex.type;
+        finalStack.back().value = Ex.value;
+        finalStack.back().code = Ex.code;
+    }
+    else if (action == "<WHILE06>")
+    {
+        finalStack.pop_back();
+        attribute statement = finalStack.back();
+        finalStack.pop_back();
+        finalStack.pop_back();
+        finalStack.pop_back();
+        attribute experssion = finalStack.back();
+        finalStack.pop_back();
+        finalStack.pop_back();
+        finalStack.pop_back();
+        string goto_str;
+        if (experssion.code.size() > 0)
+        {
+            goto_str = to_string(addressCounter) + ": goto    " + address_get(experssion.code[0]);
+            statement.code.push_back(goto_str);
+            addressCounter += 3;
+            string if_str = experssion.code.back() + "  " + to_string(addressCounter);
+            experssion.code.pop_back();
+            experssion.code.push_back(if_str);
+            for (auto i : experssion.code)
+            {
+                finalStack.back().code.push_back(i);
+            }
+            for (auto i : statement.code)
+            {
+                finalStack.back().code.push_back(i);
+            }
+        }
+        else
+        {
+            isError = true;
+            goto_str = "THERE IS NO EXPRESSION";
+            statement.code.push_back(goto_str);
+            addressCounter += 3;
+            for (auto i : statement.code)
+            {
+                finalStack.back().code.push_back(i);
+            }
+        }
+    }
+    else if (action == "<SIGN00>" || action == "<SIGN10>")
+    {
+        attribute sign = finalStack.back();
+        finalStack.pop_back();
+        finalStack.back().value = sign.value;
+    }
+    else if (action == "<SIMPLE_EXPRESSION01>")
+    {
+        attribute term = finalStack.back();
+        finalStack.pop_back();
+        attribute sgin = finalStack.back();
+        finalStack.pop_back();
+        if (sgin.value == "neg")
+        {
+            if (term.type == "int")
+            {
+                term.code.push_back(to_string(addressCounter) + ": ineg");
+            }
+            else if (term.type == "float")
+            {
+                term.code.push_back(to_string(addressCounter) + ": fneg");
+            }
+            addressCounter++;
+        }
+        finalStack.push_back(term);
+        attribute aa = finalStack.back();
+        for (int i = 0; i < aa.code.size(); i++)
+        {
+            s.top().code.push_back(aa.code[i]);
+        }
+        s.top().type = aa.type;
+        s.top().value = aa.value;
     }
 }
 
@@ -220,8 +302,8 @@ void ActionMaker::handlePT(vector<attribute> &finalStack)
 void ActionMaker::handleDeclaration(vector<attribute> &finalStack, string lex)
 {
 
-    //DECleration ->>  PRIMITIVE_TYPE <DECLARATION00> 'id' <DECLARATION01> ';' <DECLARATION02> 
-    finalStack.pop_back();  //  ; 
+    //DECleration ->>  PRIMITIVE_TYPE <DECLARATION00> 'id' <DECLARATION01> ';' <DECLARATION02>
+    finalStack.pop_back(); //  ;
     attribute id = finalStack.back();
     finalStack.pop_back();
     attribute pt = finalStack.back();
@@ -244,14 +326,17 @@ void ActionMaker::factor(vector<attribute> &finalStack)
     {
         string ad = to_string(addressCounter) + ": ";
         addressCounter += 2;
-        
+
         finalStack.back().value = numOrID.value;
-        if (numOrID.value.find(".") != std::string::npos) {
-            finalStack.back().type = "\'float\'"; // will change
+        if (numOrID.value.find(".") != std::string::npos)
+        {
+            finalStack.back().type = "float"; // will change
             string code1 = ad + "bfpush " + numOrID.value;
             finalStack.back().code.push_back(code1);
-        }else {
-            finalStack.back().type = "\'int\'"; // will change
+        }
+        else
+        {
+            finalStack.back().type = "int"; // will change
             string code1 = ad + "bipush " + numOrID.value;
             finalStack.back().code.push_back(code1);
         }
@@ -259,18 +344,40 @@ void ActionMaker::factor(vector<attribute> &finalStack)
     else
     {
         //serch in table
+        string pos;
+        string typeForId;
+        if (variables.find(numOrID.value) == variables.end())
+        {
+            cout << "error must be declare first" << endl;
+            pos = "error";
+            typeForId = "error";
+            isError = true;
+            finalStack.back().code.push_back("VAR MUST BE DECLARE FIRST");
+            return;
+        }
+        else
+        {
+            pos = to_string(variables[numOrID.value].first);
+            typeForId = variables[numOrID.value].second;
+        }
+
         string ad = to_string(addressCounter++) + ": ";
-        finalStack.back().type = "\'int\'";                                       // will change
-        string code1 = ad + "iload_" + to_string(variables[numOrID.value].first); // will change
+        finalStack.back().type = typeForId;
+        string code1;
+        if (typeForId == "int")                                                // will change
+            code1 = ad + "iload_" + to_string(variables[numOrID.value].first); // will change
+        else if (typeForId == "float")
+            code1 = ad + "fload_" + to_string(variables[numOrID.value].first);
+
         finalStack.back().code.push_back(code1);
         finalStack.back().value = numOrID.value;
     }
 }
 
-string ActionMaker::codeOFmulandAdd(string aa, string bb, string ccValue , string ccName, string action)
+string ActionMaker::codeOFmulandAdd(string aa, string bb, string ccValue, string ccName, string action)
 {
 
-    if (aa == "\'int\'" && bb == "\'int\'")
+    if (aa == "int" && bb == "int")
     {
         if (action == "<TERM'01>")
         {
@@ -294,7 +401,9 @@ string ActionMaker::codeOFmulandAdd(string aa, string bb, string ccValue , strin
                 return "isub";
             }
         }
-    }else if ( aa == "\'float\'" && bb == "\'float\'") {
+    }
+    else if (aa == "float" && bb == "float")
+    {
         if (action == "<TERM'01>")
         {
             if (ccValue == "*")
@@ -318,25 +427,38 @@ string ActionMaker::codeOFmulandAdd(string aa, string bb, string ccValue , strin
             }
         }
     }
-
-    return "";
+    isError = true;
+    return "CAN NOT DO OPERATION OT DIFFIRENT TYPE";
 }
 
-string ActionMaker::addIfByteCode(attribute relop) {
-    string result=to_string(addressCounter)+": ";
-    string value=relop.value;
-    if(value.compare("<")==0)
-        result+="if_icmpge";
-    else if(value.compare(">")==0)
-        result+="if_icmple";
-    else if(value.compare(">=")==0)
-        result+="if_icmplt";
-    else if(value.compare("<=")==0)
-        result+="if_icmpgt";
-    else if(value.compare("==")==0)
-        result+="if_icmpne";
-    else if(value.compare("!=")==0)
-        result+="if_icmpeq";
-    addressCounter+=3;
+string ActionMaker::addIfByteCode(attribute relop)
+{
+    string result = to_string(addressCounter) + ": ";
+    string value = relop.value;
+    if (value.compare("<") == 0)
+        result += "if_icmpge";
+    else if (value.compare(">") == 0)
+        result += "if_icmple";
+    else if (value.compare(">=") == 0)
+        result += "if_icmplt";
+    else if (value.compare("<=") == 0)
+        result += "if_icmpgt";
+    else if (value.compare("==") == 0)
+        result += "if_icmpne";
+    else if (value.compare("!=") == 0)
+        result += "if_icmpeq";
+    addressCounter += 3;
     return result;
+}
+
+string ActionMaker::address_get(string str)
+{
+    string num_str = "";
+    int i = 0;
+    while (str[i] != ':')
+    {
+        num_str += str[i];
+        i++;
+    }
+    return num_str;
 }

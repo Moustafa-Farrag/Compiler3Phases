@@ -6,9 +6,23 @@ STATEMENT to DECLARATION <STATEMENT10>
 
 DECLARATION to PRIMITIVE_TYPE <DECLARATION00> 'id' <DECLARATION01> ';' <DECLARATION02> 
 
-PRIMITIVE_TYPE to 'float' <PRIMITIVE_TYPE00> 
+PRIMITIVE_TYPE to 'int' <PRIMITIVE_TYPE10> 
 
-match 'float'
+match 'int'
+
+match 'id'
+
+match ';'
+
+STATEMENT_LIST' to STATEMENT <STATEMENT_LIST'00> STATEMENT_LIST' <STATEMENT_LIST'01> 
+
+STATEMENT to DECLARATION <STATEMENT10> 
+
+DECLARATION to PRIMITIVE_TYPE <DECLARATION00> 'id' <DECLARATION01> ';' <DECLARATION02> 
+
+PRIMITIVE_TYPE to 'int' <PRIMITIVE_TYPE10> 
+
+match 'int'
 
 match 'id'
 
@@ -36,31 +50,35 @@ match 'num'
 
 TERM' to eeee
 
-SIMPLE_EXPRESSION' to 'addop' <SIMPLE_EXPRESSION'00> TERM <SIMPLE_EXPRESSION'01> SIMPLE_EXPRESSION' <SIMPLE_EXPRESSION'02> 
-
-match 'addop'
-
-TERM to FACTOR <TERM00> TERM' <TERM01> 
-
-FACTOR to 'num' <FACTOR20> 
-
-match 'num'
-
-TERM' to 'mulop' <TERM'00> FACTOR <TERM'01> TERM' <TERM'02> 
-
-match 'mulop'
-
-FACTOR to 'num' <FACTOR20> 
-
-match 'num'
-
-TERM' to eeee
-
 SIMPLE_EXPRESSION' to eeee
 
 EXPRESSION0 to eeee
 
 match ';'
+
+STATEMENT_LIST' to STATEMENT <STATEMENT_LIST'00> STATEMENT_LIST' <STATEMENT_LIST'01> 
+
+STATEMENT to WHILE <STATEMENT30> 
+
+WHILE to 'while' <WHILE00> '(' <WHILE01> EXPRESSION <WHILE02> ')' <WHILE03> '{' <WHILE04> STATEMENT <WHILE05> '}' <WHILE06> 
+
+match 'while'
+
+match '('
+
+EXPRESSION to synch
+
+error synch
+
+match ')'
+
+match '{'
+
+STATEMENT to synch
+
+error synch
+
+match '}'
 
 STATEMENT_LIST' to eeee
 

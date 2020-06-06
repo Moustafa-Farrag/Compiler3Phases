@@ -1,5 +1,6 @@
 letter = a-z | A-Z
 digit = 0-9
+sign: neg | pos 
 id: letter (letter|digit)*
 digits = digit+
 {boolean int float}

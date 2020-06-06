@@ -173,6 +173,8 @@ void TableBuilder::lastInput(string firstNon)
 
                  cout <<  finals.back().name << " +++++++++++++++" << endl ;
                 // make 
+                cout << "TYPE >> " << finals.back().type << endl ;
+                cout << "VALUE >> " << finals.back().value << endl <<  "CODE:" << endl  ; 
                 for ( int j = 0 ; j < finals.back().code.size() ; j++ ){
                     cout << finals.back().code[j] << endl ; 
                 } 

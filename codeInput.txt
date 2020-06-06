@@ -1,2 +1,7 @@
-float ahmed ;
-ahmed = 5.5 - 6.5 / 7.1 ;
+int ahmed ;
+int a ; 
+a = 5 ;
+while ( )
+{
+}
+
