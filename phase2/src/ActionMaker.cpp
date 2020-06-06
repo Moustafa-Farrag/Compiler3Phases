@@ -123,12 +123,12 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
         if (Ex.type == "float" && typeForId == "float")
         {
             string ad = to_string(addressCounter++) + ": ";
-            finalStack.back().code.push_back(ad + "fstore" + "    " + pos);
+            finalStack.back().code.push_back(ad + "fstore" + "_" + pos);
         }
         else if (Ex.type == "int" && typeForId == "int")
         {
             string ad = to_string(addressCounter++) + ": ";
-            finalStack.back().code.push_back(ad + "istore" + "    " + pos);
+            finalStack.back().code.push_back(ad + "istore" + "_" + pos);
         }
         else
         {
@@ -179,16 +179,22 @@ void ActionMaker::make(string action, vector<attribute> &finalStack, string lex,
     }
     else if (action == "<EXPRESSION001>")
     {
-        attribute temp = finalStack.back();
+        attribute left = finalStack.back();
         finalStack.pop_back();
         attribute relop = finalStack.back();
-        string ifInst = addIfByteCode(relop);
         finalStack.pop_back();
-        for (auto i : temp.code)
+
+        string ifInst= "";
+        if(left.type =="int"){
+            ifInst = addIfByteCode(relop);
+        }else if( left.type =="float"){
+            ifInst = addIfByteCodeFloat(relop);
+        }
+        for (auto i : left.code)
             finalStack.back().code.push_back(i);
         finalStack.back().code.push_back(ifInst);
-        finalStack.back().type = temp.type;
-        finalStack.back().value = temp.value;
+        finalStack.back().type = left.type;
+        finalStack.back().value = left.value;
     }
     else if (action == "<IF010>")
     {
@@ -331,13 +337,13 @@ void ActionMaker::factor(vector<attribute> &finalStack)
         if (numOrID.value.find(".") != std::string::npos)
         {
             finalStack.back().type = "float"; // will change
-            string code1 = ad + "bfpush " + numOrID.value;
+            string code1 = ad + "bfpush    " + numOrID.value;
             finalStack.back().code.push_back(code1);
         }
         else
         {
             finalStack.back().type = "int"; // will change
-            string code1 = ad + "bipush " + numOrID.value;
+            string code1 = ad + "bipush    " + numOrID.value;
             finalStack.back().code.push_back(code1);
         }
     }
@@ -461,4 +467,25 @@ string ActionMaker::address_get(string str)
         i++;
     }
     return num_str;
+}
+string ActionMaker::addIfByteCodeFloat(attribute relop)
+{   //
+    string result = to_string(addressCounter++) + ": ";
+    result += "fcmpl\n";
+    result += to_string(addressCounter) + ": ";
+    string value = relop.value;
+    if (value.compare("<") == 0)
+        result += "ifge";
+    else if (value.compare(">") == 0)
+        result += "ifle";
+    else if (value.compare(">=") == 0)
+        result += "iflt";
+    else if (value.compare("<=") == 0)
+        result += "ifgt";
+    else if (value.compare("==") == 0)
+        result += "ifne";
+    else if (value.compare("!=") == 0)
+        result += "ifeq";
+    addressCounter += 3;
+    return result;
 }
